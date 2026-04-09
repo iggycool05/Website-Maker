@@ -6,22 +6,40 @@
   <title>Website Builder</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
-
 <body>
   <h1>My Website Builder</h1>
 
-  <!--HTML Input Textarea ##Used for typeing in html code-->
-  <textarea id="htmlInput"><h1>Hello World</h1><p>This should render.</p></textarea>
+  <div id="fontControls">
+    <button id="decreaseFontBtn">&lt;</button>
+    <span id="fontSizeNumber">0</span>
+    <button id="increaseFontBtn">&gt;</button>
+  </div>
+
+  <button id="addParagraphBtn">Add Paragraph</button>
+
+  <textarea id="htmlInput"><p class="draggable-item" contenteditable="true" style="position: absolute; left: 50px; top: 50px;">
+  Drag me around
+</p>
+
+<h1 class="draggable-item" contenteditable="true" style="position: absolute; left: 220px; top: 130px;">
+  Move me too
+</h1>
+
+<div class="draggable-item" style="position: absolute; left: 50px; top: 50px; width: 200px; height: 100px;">
+  <div class="resize-handle top-left"></div>
+  <div class="resize-handle top-right"></div>
+  <div class="resize-handle bottom-left"></div>
+  <div class="resize-handle bottom-right"></div>
+
+  <p contenteditable="true">Resize me</p>
+</div></textarea>
 
   <br><br>
 
-  <!--HTML Render Button ##renders the HTML code-->
   <button id="renderHTMLBtn">Render</button>
 
   <br><br>
 
-  <!--Shows the rendered HTML preview-->
   <iframe id="previewFrame"></iframe>
 
   <script src="script.js"></script>
