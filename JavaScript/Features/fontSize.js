@@ -5,6 +5,13 @@ import {
   updateFontSizeDisplay
 } from "./textSelection.js";
 
+function preserveImagePlaceholders(bodyClone) {
+  const uploadedImages = bodyClone.querySelectorAll("img[data-upload-id]");
+  uploadedImages.forEach(function (img) {
+    img.removeAttribute("src");
+  });
+}
+
 export function saveIframeToTextarea() {
   if (!state.iframeDoc) return;
 
@@ -15,6 +22,7 @@ export function saveIframeToTextarea() {
     element.classList.remove("selected-text");
   });
 
+  preserveImagePlaceholders(bodyClone);
   elements.htmlInput.value = bodyClone.innerHTML.trim();
 }
 

@@ -1,7 +1,15 @@
 import { elements } from "../DOM/elements.js";
+import { getUploadedImage } from "../Utils/imageStore.js";
+
+function resolveImagePlaceholders(html) {
+  return html.replace(/<img\b([^>]*?)\sdata-upload-id="([^"]+)"([^>]*?)>/gi, (match, before, id, after) => {
+    const src = getUploadedImage(id);
+    return src ? `<img${before} src="${src}" data-upload-id="${id}"${after}>` : match;
+  });
+}
 
 export function renderPreview() {
-  const userCode = elements.htmlInput.value;
+  const userCode = resolveImagePlaceholders(elements.htmlInput.value);
 
   const fullHTML = `
     <!DOCTYPE html>
