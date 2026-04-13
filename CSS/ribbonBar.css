@@ -1,0 +1,260 @@
+/* ─── Ribbon Panel ─── */
+.ribbon-panel {
+  background: #ffffff;
+  display: flex;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  padding: 4px 6px 0;
+  border-bottom: 1px solid #c8c8c8;
+  min-height: 90px;
+  overflow-x: auto;
+  overflow-y: visible;
+  position: relative;
+  z-index: 5;
+}
+
+.ribbon-panel.hidden {
+  display: none;
+}
+
+/* ─── Group ─── */
+.ribbon-Group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2px 6px 0;
+  min-width: 60px;
+}
+
+.group-body {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex: 1;
+}
+
+.group-label {
+  font-size: 10px;
+  color: #777;
+  text-align: center;
+  padding: 3px 0 4px;
+  white-space: nowrap;
+  width: 100%;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 3px;
+}
+
+.group-sep {
+  width: 1px;
+  background: #d8d8d8;
+  margin: 4px 2px 12px;
+  align-self: stretch;
+}
+
+/* ─── Ribbon Buttons ─── */
+.rbtn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 3px 5px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: none;
+  cursor: pointer;
+  min-width: 34px;
+  transition: background 0.1s, border-color 0.1s;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.rbtn:hover {
+  background: #e5f0fb;
+  border-color: #90c3e5;
+}
+
+.rbtn:active,
+.rbtn.active {
+  background: #cce4f7;
+  border-color: #6aacda;
+}
+
+.rbtn.large {
+  min-width: 48px;
+  padding: 4px 6px;
+}
+
+.rbtn .ico {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.rbtn .ico.sm {
+  font-size: 16px;
+}
+
+.rbtn .lbl {
+  font-size: 10px;
+  color: #333;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.dropdown-arrow {
+  font-size: 8px;
+  color: #666;
+  line-height: 1;
+}
+
+/* ─── Vertical stack of small buttons ─── */
+.vstack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.smbtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 6px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: none;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 11px;
+  color: #222;
+  white-space: nowrap;
+  transition: background 0.1s, border-color 0.1s;
+  text-align: left;
+}
+
+.smbtn:hover {
+  background: #e5f0fb;
+  border-color: #90c3e5;
+}
+
+.sico {
+  font-size: 13px;
+}
+
+/* ─── Icon Buttons (font group, etc.) ─── */
+.icon-btn {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  color: #222;
+  padding: 2px 5px;
+  line-height: 1.4;
+  transition: background 0.1s, border-color 0.1s;
+  min-width: 24px;
+  text-align: center;
+}
+
+.icon-btn:hover {
+  background: #e5f0fb;
+  border-color: #90c3e5;
+}
+
+.icon-btn:active,
+.icon-btn.active {
+  background: #cce4f7;
+  border-color: #6aacda;
+}
+
+.icon-btn.bold  { font-weight: 700; }
+.icon-btn.italic { font-style: italic; }
+.icon-btn.underline { text-decoration: underline; }
+.icon-btn.strikethrough { text-decoration: line-through; }
+
+.color-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 2px 4px 1px;
+}
+
+.color-bar {
+  display: block;
+  width: 16px;
+  height: 3px;
+  border-radius: 1px;
+}
+
+/* ─── Split Button ─── */
+.split-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  z-index: 10;
+}
+
+.split-btn .rbtn {
+  border: none;
+  border-radius: 0;
+  margin: 0;
+}
+
+.split-btn .split-arrow {
+  background: #ffffff;
+  border: none;
+  border-left: 1px solid #d1d5db;
+  padding: 8px 6px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  transition: background 0.1s;
+}
+
+.split-btn .split-arrow:hover {
+  background: #f3f4f6;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  display: none;
+  flex-direction: column;
+  width: max-content;
+  min-width: 110px;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.16);
+  padding: 6px 0;
+  z-index: 10000;
+}
+
+.dropdown-menu.open {
+  display: flex;
+}
+
+.dropdown-menu button {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #111827;
+  cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+  background: #f3f4f6;
+}

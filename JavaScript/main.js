@@ -4,6 +4,7 @@ import { setupIframe } from "./Preview/setupIframe.js";
 import { changeSelectedFontSize } from "./Features/fontSize.js";
 import * as htmlToolbar from "./Features/htmleditorToolbar.js";
 import { addUploadedImage } from "./Utils/imageStore.js";
+import { initTooltips } from "./Features/toolTip.js";
 
 elements.decreaseFontBtn.addEventListener("click", function () {
   changeSelectedFontSize(-1);
@@ -30,8 +31,22 @@ elements.addHeadingBtn.addEventListener("click", function () {
   htmlToolbar.addHeading();
 });
 // HTMLEditorButtons - Event listener for the heading dropdown arrow
-elements.headingDropdownBtn.addEventListener("click", function () {
-  elements.headingDropdownMenu.classList.toggle("open");
+elements.headingDropdownBtn.addEventListener("click", function (event) {
+  event.stopPropagation();
+
+  const menu = elements.headingDropdownMenu;
+  const isOpen = menu.classList.toggle("open");
+  if (isOpen) {
+    const rect = elements.headingDropdownBtn.getBoundingClientRect();
+    menu.style.position = "fixed";
+    menu.style.top = `${rect.bottom + 6}px`;
+    menu.style.left = `${rect.left}px`;
+    menu.style.right = "auto";
+  } else {
+    menu.style.position = "";
+    menu.style.top = "";
+    menu.style.left = "";
+  }
 });
 // HTMLEditorButtons - Event listener for heading level selection
 elements.headingDropdownMenu.addEventListener("click", function (event) {
@@ -39,6 +54,24 @@ elements.headingDropdownMenu.addEventListener("click", function (event) {
   if (level) {
     htmlToolbar.addHeading(level);
     elements.headingDropdownMenu.classList.remove("open");
+    elements.headingDropdownMenu.style.position = "";
+    elements.headingDropdownMenu.style.top = "";
+    elements.headingDropdownMenu.style.left = "";
+  }
+});
+// Close the heading menu when clicking outside it
+document.addEventListener("click", function (event) {
+  const target = event.target;
+  const menu = elements.headingDropdownMenu;
+  if (
+    menu.classList.contains("open") &&
+    !menu.contains(target) &&
+    target !== elements.headingDropdownBtn
+  ) {
+    menu.classList.remove("open");
+    menu.style.position = "";
+    menu.style.top = "";
+    menu.style.left = "";
   }
 });
 // HTMLEditorButtons - Event listener for the "Add Div" button in the HTML editor ribbon
@@ -77,3 +110,6 @@ elements.renderPreviewBtn.addEventListener("click", function () {
 });
 
 renderPreview();
+
+// Initialize tooltips
+initTooltips();

@@ -8,7 +8,8 @@ function appendHtmlSnippet(snippet) {
 }
 // HTMLEditorButtons - Functions for handling HTML editor ribbon actions
 export function toggleHtmlEditorRibbon() {
-  elements.htmlEditorRibbon.classList.toggle("open");
+  elements.htmlEditorRibbon.classList.toggle("hidden");
+  elements.htmlEditorTabBtn.classList.toggle("active");
 }
 // HTMLEditorButtons - Functions for adding different HTML elements to the textarea
 export function addParagraph() {

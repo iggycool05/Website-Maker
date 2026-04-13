@@ -18,10 +18,9 @@ export const elements = {
   
   addDivBtn: $("addDivBtn"),
   addSpanBtn: $("addSpanBtn"),
-  addParagraphBtn: $("addParagraphBtn"),
   // Elements for Image insertion
   addImageBtn: $("addImageBtn"),
   addImageInput: $("addImageInput"),
   // Render button
-    renderPreviewBtn: $("renderPreviewBtn"),
+  renderPreviewBtn: $("renderPreviewBtn"),
 };

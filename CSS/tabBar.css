@@ -1,0 +1,39 @@
+/* ─── Tab Bar ─── */
+.tab-bar {
+  background: #f0f0f0;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 6px;
+  border-bottom: 1px solid #ababab;
+  gap: 1px;
+  height: 30px;
+}
+
+.tab {
+  background: none;
+  border: 1px solid transparent;
+  border-bottom: none;
+  color: #444;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  padding: 5px 13px;
+  border-radius: 3px 3px 0 0;
+  position: relative;
+  top: 1px;
+  transition: background 0.1s;
+  white-space: nowrap;
+}
+
+.tab:hover:not(.active) {
+  background: #e2e2e2;
+}
+
+.tab.active {
+  background: #ffffff;
+  border-color: #ababab;
+  border-bottom-color: #ffffff;
+  color: #1f3864;
+  font-weight: 600;
+  z-index: 2;
+}
