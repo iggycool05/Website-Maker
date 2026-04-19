@@ -16,7 +16,7 @@
 /* ── THE TOOLTIP ── */
 #ribbon-tooltip{
   display:none;
-  position:absolute;
+  position:fixed;
   z-index:999;
   width:220px;
   background:#fff;

@@ -1,5 +1,7 @@
 import { elements } from "../DOM/elements.js";
 import { getUploadedImage } from "../Utils/imageStore.js";
+import { toCssString } from "../CSS Features/cssStore.js";
+import { getRawJs } from "../JS Features/jsStore.js";
 
 function resolveImagePlaceholders(html) {
   return html.replace(/<img\b([^>]*?)\sdata-upload-id="([^"]+)"([^>]*?)>/gi, (match, before, id, after) => {
@@ -10,6 +12,10 @@ function resolveImagePlaceholders(html) {
 
 export function renderPreview() {
   const userCode = resolveImagePlaceholders(elements.htmlInput.value);
+  const userCss  = toCssString();
+  const userJs   = getRawJs();
+  // Prevent user's </script from prematurely closing the injected script tag
+  const safeJs   = userJs ? userJs.replace(/<\/script/gi, "<\\/script") : "";
 
   const fullHTML = `
     <!DOCTYPE html>
@@ -35,7 +41,9 @@ export function renderPreview() {
         }
 
         .selected-text {
-          outline: 2px solid red;
+          outline: 2px solid #0078d4 !important;
+          outline-offset: 2px;
+          box-shadow: 0 0 0 4px rgba(0, 120, 212, 0.12);
         }
 
         .resize-handle {
@@ -78,9 +86,11 @@ export function renderPreview() {
           cursor: text;
         }
       </style>
+      ${userCss ? `<style>\n${userCss}</style>` : ""}
     </head>
     <body>
       ${userCode}
+      ${safeJs ? `<script>\n${safeJs}\n<\/script>` : ""}
     </body>
     </html>
   `;

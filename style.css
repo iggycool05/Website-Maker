@@ -1,61 +1,295 @@
+/* ─────────────────────────────────────────────
+   Global reset & viewport-filling shell
+   ───────────────────────────────────────────── */
+
 * {
   box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background-color: #f5f6f8;
-  color: #1f2937;
   margin: 0;
+  padding: 0;
 }
 
+html, body {
+  height: 100%;
+  overflow: hidden;          /* prevent outer scroll — panels scroll internally */
+  background: #e8e8e8;
+  font-family: Arial, sans-serif;
+  color: #1f2937;
+}
+
+/* Full-height flex column: tab-bar → ribbon → workspace */
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-textarea {
-  width: 100%;
-  min-height: 260px;
-  font-size: 16px;
-  font-family: monospace;
-  border: 1px solid #d1d5db;
-  border-radius: 12px;
-  padding: 12px;
-  box-sizing: border-box;
-  resize: vertical;
-  background: #ffffff;
-  color: #111827;
-}
-
-iframe {
-  width: 100%;
-  min-height: 420px;
-  border: 1px solid #d1d5db;
-  border-radius: 12px;
-  margin-top: 16px;
-  background: #ffffff;
-}
+/* ─────────────────────────────────────────────
+   Workspace — fills all remaining height
+   ───────────────────────────────────────────── */
 
 #workspace {
-  display: grid;
-  gap: 18px;
-  padding: 16px 0 24px;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;             /* critical: flex children need this to shrink */
 }
 
-#codePanel,
+/* ─────────────────────────────────────────────
+   Code Panel  (Source Code tab)
+   Hidden by default; becomes active when user
+   clicks the Source Code tab.
+   Layout: file-explorer sidebar | editor area
+   ───────────────────────────────────────────── */
+
+#codePanel {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: row;       /* sidebar + editor side by side */
+  background: #1e1e2e;
+}
+
+#codePanel.active {
+  display: flex;
+}
+
+/* ── File Explorer Sidebar ── */
+
+#fileExplorer {
+  width: 190px;
+  flex-shrink: 0;
+  background: #13131f;
+  border-right: 1px solid #2a2a42;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  user-select: none;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a5a transparent;
+}
+
+#fileExplorer::-webkit-scrollbar       { width: 6px; }
+#fileExplorer::-webkit-scrollbar-track { background: transparent; }
+#fileExplorer::-webkit-scrollbar-thumb { background: #3a3a5a; border-radius: 3px; }
+
+.fe-header {
+  padding: 10px 12px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #555;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.fe-section-header {
+  display: flex;
+  align-items: center;
+  padding: 2px 8px 4px 10px;
+}
+
+.fe-section-name {
+  flex: 1;
+  font-size: 10px;
+  font-weight: 700;
+  color: #888;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.fe-file-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.fe-file {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px 4px 18px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #aaa;
+  border-left: 2px solid transparent;
+  transition: background 0.1s, color 0.1s;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.fe-file:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ddd;
+}
+
+.fe-file.active {
+  background: rgba(99, 102, 241, 0.14);
+  color: #e0e0ff;
+  border-left-color: #6366f1;
+}
+
+/* Coloured file-type badge */
+.fe-icon {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  border-radius: 2px;
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.fe-html { background: #c0602a; color: #fff; }
+.fe-css  { background: #2a6fc0; color: #fff; }
+.fe-js   { background: #b8961a; color: #fff; }
+
+.fe-file-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 12px;
+}
+
+/* ── Editor Area (fills remaining width) ── */
+
+#editorArea {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Both code textareas share the same look; only one is visible at a time */
+#htmlInput,
+#cssInput,
+#jsInput {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  resize: none;
+  border: none;
+  outline: none;
+  padding: 16px 20px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #cdd6f4;
+  background: #1e1e2e;
+  border-radius: 0;
+  tab-size: 2;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#htmlInput::selection,
+#cssInput::selection,
+#jsInput::selection {
+  background: #4a4a6a;
+}
+
+/* Thin scrollbars */
+#htmlInput::-webkit-scrollbar,
+#cssInput::-webkit-scrollbar,
+#jsInput::-webkit-scrollbar         { width: 10px; }
+#htmlInput::-webkit-scrollbar-track,
+#cssInput::-webkit-scrollbar-track,
+#jsInput::-webkit-scrollbar-track   { background: #181825; }
+#htmlInput::-webkit-scrollbar-thumb,
+#cssInput::-webkit-scrollbar-thumb,
+#jsInput::-webkit-scrollbar-thumb   { background: #45475a; border-radius: 5px; }
+#htmlInput::-webkit-scrollbar-thumb:hover,
+#cssInput::-webkit-scrollbar-thumb:hover,
+#jsInput::-webkit-scrollbar-thumb:hover { background: #585b70; }
+
+#cssInput.hidden,
+#htmlInput.hidden,
+#jsInput.hidden { display: none; }
+
+/* ─────────────────────────────────────────────
+   Preview Panel  (all other tabs)
+   Visible by default; hidden only when user
+   is on the Source Code tab.
+   ───────────────────────────────────────────── */
+
 #previewPanel {
+  position: absolute;
+  inset: 0;
+  display: flex;
   background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
 }
 
-#previewPanel {
-  background: #f8fafc;
+#previewPanel.hidden {
+  display: none;
 }
+
+/* iframe fills the entire panel — no borders, no margin */
+#previewFrame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  min-height: 0;
+  background: #ffffff;
+}
+
+/* ── File Explorer: Page list entries ── */
+
+.fe-page-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Remove-page button (visible on hover) */
+.fe-rm-page {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 3px;
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.1s, color 0.1s;
+  margin-left: auto;
+}
+
+.fe-file:hover .fe-rm-page {
+  opacity: 1;
+}
+
+.fe-rm-page:hover {
+  color: #ff6b6b;
+}
+
+/* Add-page button (next to "Pages" section header) */
+.fe-add-btn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+  border-radius: 2px;
+  transition: color 0.1s, background 0.1s;
+  flex-shrink: 0;
+}
+
+.fe-add-btn:hover {
+  color: #ddd;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ─────────────────────────────────────────────
+   Legacy toolbar elements  (kept hidden)
+   ───────────────────────────────────────────── */
 
 #toolbar,
 #toolbarCenter,

@@ -1,0 +1,149 @@
+/* ══════════════════════════════════════════════════════════
+   Component Library Modal
+   ══════════════════════════════════════════════════════════ */
+
+.comp-lib-box {
+  width: 680px;
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.comp-lib-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 10px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.comp-lib-header-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.comp-lib-close {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+  padding: 2px 5px;
+  border-radius: 3px;
+  line-height: 1;
+  transition: background 0.1s, color 0.1s;
+}
+
+.comp-lib-close:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+/* ── Category tabs ── */
+.cl-cat-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 10px 16px 0;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.cl-cat-tab {
+  padding: 6px 14px;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  background: none;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  color: #666;
+  transition: background 0.1s, color 0.1s;
+  position: relative;
+  bottom: -1px;
+}
+
+.cl-cat-tab:hover {
+  background: #f3f4f6;
+  color: #333;
+}
+
+.cl-cat-tab.active {
+  background: #fff;
+  border-color: #e5e7eb;
+  border-bottom-color: #fff;
+  color: #0078d4;
+  font-weight: 600;
+}
+
+/* ── Template grid ── */
+.cl-grid-wrap {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 transparent;
+}
+
+.cl-grid-wrap::-webkit-scrollbar       { width: 8px; }
+.cl-grid-wrap::-webkit-scrollbar-track { background: transparent; }
+.cl-grid-wrap::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+
+.cl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+/* ── Individual template card ── */
+.cl-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  user-select: none;
+}
+
+.cl-card:hover {
+  border-color: #0078d4;
+  box-shadow: 0 4px 12px rgba(0, 120, 212, 0.15);
+  transform: translateY(-2px);
+}
+
+.cl-card:active {
+  transform: translateY(0);
+}
+
+.cl-card-preview {
+  height: 80px;
+  background: linear-gradient(135deg, #f0f4ff, #e8eaff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #6366f1;
+}
+
+.cl-card-name {
+  padding: 8px 10px 2px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cl-card-cat {
+  padding: 0 10px 8px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 10px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

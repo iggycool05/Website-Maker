@@ -1,0 +1,316 @@
+/* ─────────────────────────────────────────────
+   Properties Panel
+   Left-side panel inside #previewPanel.
+   Mirrors the inspector panel layout/theme.
+   ───────────────────────────────────────────── */
+
+#propertiesPanel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 220px;
+  z-index: 10;
+  display: none;
+  flex-direction: column;
+  background: #1e1e2e;
+  border-right: 1px solid #2a2a42;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#propertiesPanel.open {
+  display: flex;
+}
+
+/* ── Header ── */
+
+.pp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: #13131f;
+  border-bottom: 1px solid #2a2a42;
+  color: #888;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.pp-header-close {
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0 2px;
+  transition: color 0.1s;
+}
+
+.pp-header-close:hover { color: #cdd6f4; }
+
+/* ── Scrollable content ── */
+
+#propertiesContent {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 0 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a5a transparent;
+}
+
+#propertiesContent::-webkit-scrollbar       { width: 6px; }
+#propertiesContent::-webkit-scrollbar-track { background: transparent; }
+#propertiesContent::-webkit-scrollbar-thumb { background: #3a3a5a; border-radius: 3px; }
+
+/* ── Empty state ── */
+
+.pp-empty {
+  padding: 16px 12px;
+  font-size: 11px;
+  color: #555;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── Section ── */
+
+.pp-section {
+  padding: 8px 10px 4px;
+  border-bottom: 1px solid #2a2a42;
+}
+
+.pp-section:last-child {
+  border-bottom: none;
+}
+
+.pp-section-title {
+  font-size: 9px;
+  font-weight: 700;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+
+/* ── Field rows ── */
+
+.pp-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+.pp-field {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pp-field-full {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 5px;
+}
+
+.pp-label {
+  font-size: 10px;
+  color: #6c7086;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: right;
+}
+
+.pp-field-full .pp-label {
+  width: 44px;
+  text-align: right;
+}
+
+/* ── Inputs ── */
+
+.pp-input {
+  flex: 1;
+  min-width: 0;
+  height: 22px;
+  background: #313244;
+  border: 1px solid #45475a;
+  border-radius: 3px;
+  color: #cdd6f4;
+  font-family: 'Consolas', monospace;
+  font-size: 11px;
+  padding: 0 5px;
+  outline: none;
+  transition: border-color 0.1s;
+}
+
+.pp-input:focus {
+  border-color: #89b4fa;
+  background: #3a3a5a;
+}
+
+/* Remove number input spinners */
+.pp-input[type=number]::-webkit-inner-spin-button,
+.pp-input[type=number]::-webkit-outer-spin-button { opacity: 1; filter: invert(1) brightness(0.6); }
+
+/* ── Color row ── */
+
+.pp-color-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 5px;
+}
+
+.pp-color-row .pp-label {
+  width: 44px;
+  text-align: right;
+}
+
+.pp-color {
+  width: 22px;
+  height: 22px;
+  border: 1px solid #45475a;
+  border-radius: 3px;
+  padding: 1px;
+  background: #313244;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.pp-color-text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Opacity row ── */
+
+.pp-opacity-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+.pp-opacity-row .pp-label {
+  width: 44px;
+  text-align: right;
+}
+
+.pp-range {
+  flex: 1;
+  height: 4px;
+  accent-color: #89b4fa;
+  cursor: pointer;
+}
+
+.pp-range-val {
+  font-size: 10px;
+  color: #89b4fa;
+  font-family: 'Consolas', monospace;
+  width: 28px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── Panel action buttons ── */
+
+.pp-btn {
+  display: block;
+  width: calc(100% - 20px);
+  margin: 4px 10px 2px;
+  padding: 5px 0;
+  background: #313244;
+  border: 1px solid #45475a;
+  border-radius: 4px;
+  color: #cdd6f4;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.pp-btn:hover {
+  background: #45475a;
+  border-color: #89b4fa;
+}
+
+.pp-btn.pp-btn-danger {
+  color: #f38ba8;
+  border-color: #4a2a2a;
+  background: #2a1a1a;
+}
+
+.pp-btn.pp-btn-danger:hover {
+  background: #3a1a1a;
+  border-color: #f38ba8;
+}
+
+select.pp-input {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+/* ── CSS Class chips ── */
+
+.pp-class-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 2px 0 6px;
+  min-height: 22px;
+}
+
+.pp-class-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: #2a2a3e;
+  border: 1px solid #45475a;
+  border-radius: 10px;
+  padding: 2px 5px 2px 6px;
+  font-family: 'Consolas', monospace;
+  font-size: 10px;
+  color: #cdd6f4;
+}
+
+.pp-class-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #6366f1;
+  flex-shrink: 0;
+}
+
+.pp-class-remove {
+  border: none;
+  background: transparent;
+  color: #555;
+  cursor: pointer;
+  font-size: 9px;
+  padding: 0 0 0 2px;
+  line-height: 1;
+  transition: color 0.1s;
+}
+
+.pp-class-remove:hover { color: #f38ba8; }
+
+.pp-class-empty {
+  font-size: 10px;
+  color: #555;
+  font-style: italic;
+}
+
+.pp-class-add-row {
+  margin-top: 2px;
+}

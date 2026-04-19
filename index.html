@@ -9,7 +9,14 @@
   <link rel="stylesheet" href="./CSS/ribbonBar.css">
   <link rel="stylesheet" href="./CSS/toolbar.css">
   <link rel="stylesheet" href="./CSS/toolTip.css">
-
+  <link rel="stylesheet" href="./CSS/fontPicker.css">
+  <link rel="stylesheet" href="./CSS/contextMenu.css">
+  <link rel="stylesheet" href="./CSS Features/cssEditor.css">
+  <link rel="stylesheet" href="./CSS/inspector.css">
+  <link rel="stylesheet" href="./CSS/propertiesPanel.css">
+  <link rel="stylesheet" href="./CSS/formatToolbar.css">
+  <link rel="stylesheet" href="./CSS/componentLibrary.css">
+  <link rel="stylesheet" href="./CSS Features/animationBuilder.css">
 </head>
 <body style="background-color: white;">
   <!-- Entire app -->
@@ -17,12 +24,32 @@
 
 <!-- Top toolbar with tabs -->
 <div class="tab-bar">
-  <button class="tab" id="fileTabBtn">File</button>
-  <button class="tab active" id="htmlEditorTabBtn">HTML Editor</button>
+  <div class="tab-dropdown-wrap">
+    <button class="tab" id="fileTabBtn">File &#9660;</button>
+    <div class="tab-dropdown" id="fileTabDropdown">
+      <button id="openFolderBtn"><span class="td-ico">&#128193;</span> Open Folder</button>
+      <button id="saveProjectBtn"><span class="td-ico">&#128190;</span> Save</button>
+      <button id="loadProjectBtn"><span class="td-ico">&#128196;</span> Load from Browser</button>
+      <div class="td-sep"></div>
+      <button id="exportHtmlBtn"><span class="td-ico">&#8595;</span> Export as HTML</button>
+      <button id="exportZipBtn"><span class="td-ico">&#128230;</span> Export as ZIP</button>
+      <div class="td-sep"></div>
+      <button id="newProjectBtn"><span class="td-ico">&#9633;</span> New Project</button>
+    </div>
+  </div>
+  <button class="tab" id="htmlEditorTabBtn">HTML Editor</button>
   <button class="tab" id="cssEditorTabBtn">CSS Editor</button>
   <button class="tab" id="jsEditorTabBtn">JS Editor</button>
   <button class="tab" id="sourceCodeTabBtn">Source Code</button>
   <button class="tab" id="renderPreviewBtn">Render</button>
+  <button class="tab" id="inspectorToggleBtn">Inspector</button>
+  <button class="tab" id="propertiesToggleBtn">Properties</button>
+  <!-- Responsive preview device buttons (right-aligned) -->
+  <div class="tab-device-group">
+    <button class="tab device-tab active" id="deviceDesktopBtn" title="Desktop view">&#9638; Desktop</button>
+    <button class="tab device-tab" id="deviceTabletBtn" title="Tablet view (768px)">&#9641; Tablet</button>
+    <button class="tab device-tab" id="devicePhoneBtn" title="Phone view (375px)">&#9999; Phone</button>
+  </div>
 </div>
 
 <!-- HTML Editor Ribbon -->
@@ -30,10 +57,15 @@
 
   <div class="group">
     <div class="group-body">
-
+      <!-- Element insert buttons -->
       <!-- Heading split button -->
       <div class="split-btn">
-        <button id="addHeadingBtn" class="rbtn large">
+        <button id="addHeadingBtn" class="rbtn large" data-tip=
+          data-tip-title="Heading"
+          data-tip-p1="Wraps selected content or inserts a new heading element."
+          data-tip-p2="Headings are used to structure content hierarchically."
+          data-tip-shortcut="Ctrl+H">
+          <span class="tip-progress"></span>
           <span class="ico sm">H</span>
           <span class="lbl">Heading</span>
         </button>
@@ -47,20 +79,7 @@
           <button type="button" data-heading-level="6">H6</button>
         </div>
       </div>
-
-      <div class="sep-v"></div>
-
-      <!-- Font size stepper -->
-      <div class="font-row" id="fontTools">
-        <button id="decreaseFontBtn" class="icon-btn">&#8722;</button>
-        <span id="fontSizeNumber"
-              style="min-width:24px; text-align:center; font-size:11px; color:#222;">0</span>
-        <button id="increaseFontBtn" class="icon-btn">&#43;</button>
-      </div>
-
-      <div class="sep-v"></div>
-
-      <!-- Element insert buttons -->
+      <!-- HTML Editor - adds a new paragraph -->
       <button id="addParagraphBtn" class="rbtn" data-tip
           data-tip-title="Paragraph (Ctrl+P)"
           data-tip-p1="Wraps selected content or inserts a new &lt;p&gt; block element."
@@ -70,44 +89,426 @@
         <span class="ico sm">¶</span>
         <span class="lbl">Paragraph</span>
       </button>
-      <button id="addDivBtn" class="rbtn">
+      <!-- HTML Editor - adds a new div -->
+      <button id="addDivBtn" class="rbtn" data-tip
+          data-tip-title="Div (Ctrl+D)"
+          data-tip-p1="Wraps selected content or inserts a new &lt;div&gt; block element."
+          data-tip-p2="Divs are generic container elements for grouping content."
+          data-tip-shortcut="Ctrl+D">
+          <span class="tip-progress"></span>
         <span class="ico sm">&#9633;</span>
         <span class="lbl">Div</span>
       </button>
-      <button id="addSpanBtn" class="rbtn">
+      <!-- HTML Editor - adds a new span -->
+      <button id="addSpanBtn" class="rbtn" data-tip
+          data-tip-title="Span (Ctrl+S)"
+          data-tip-p1="Wraps selected content or inserts a new &lt;span&gt; inline element."
+          data-tip-p2="Spans are used to group inline elements for styling purposes."
+          data-tip-shortcut="Ctrl+S">
+          <span class="tip-progress"></span>
         <span class="ico sm">&#60;&#47;&#62;</span>
         <span class="lbl">Span</span>
       </button>
-      <button id="addImageBtn" class="rbtn">
+      <!-- HTML Editor - adds a new image -->
+      <button id="addImageBtn" class="rbtn" data-tip
+          data-tip-title="Image (Ctrl+I)"
+          data-tip-p1="Inserts a new image element."
+          data-tip-p2="Images can be added from your computer or inserted via URL."
+          data-tip-shortcut="Ctrl+I">
+          <span class="tip-progress"></span>
         <span class="ico sm">&#128444;</span>
         <span class="lbl">Image</span>
       </button>
       <input id="addImageInput" type="file" accept="image/*" hidden>
-
     </div>
     <div class="group-label">Text</div>
+  </div>  
+  <div class="group-sep"></div>  <div class="group">
+    <div class="group-body">
+      <!-- Font size stepper -->
+      <div class="font-row" id="fontTools">
+        <button id="decreaseFontBtn" class="icon-btn">&#8722;</button>
+        <span id="fontSizeNumber"
+              style="min-width:24px; text-align:center; font-size:11px; color:#222;">0</span>
+        <button id="increaseFontBtn" class="icon-btn">&#43;</button>
+      </div>
+
+      <!-- Word-style Font Family Picker -->
+      <div class="font-picker" id="fontPicker">
+        <div class="fp-input-wrap">
+          <input type="text" id="fontFamilyInput" class="fp-input" placeholder="Font" autocomplete="off" spellcheck="false" />
+          <button class="fp-arrow" id="fontPickerArrow" tabindex="-1" type="button">&#9660;</button>
+        </div>
+        <div class="fp-dropdown" id="fontPickerDropdown"></div>
+      </div>
+      <!-- Hidden select for API compatibility -->
+      <select id="fontFamilySelect" style="display:none"></select>
+    </div>
+    <div class="group-label">Font</div>
+  </div>
+
+  <div class="group-sep"></div>
+
+  <div class="group">
+    <div class="group-body">
+      <!-- Link button -->
+      <button id="addLinkBtn" class="rbtn"
+          data-tip
+          data-tip-title="Link"
+          data-tip-p1="Inserts an &lt;a&gt; anchor element."
+          data-tip-p2="Edit the href and target in the Properties panel.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#128279;</span>
+        <span class="lbl">Link</span>
+      </button>
+      <!-- Button element -->
+      <button id="addButtonBtn" class="rbtn"
+          data-tip
+          data-tip-title="Button"
+          data-tip-p1="Inserts a &lt;button&gt; element."
+          data-tip-p2="Buttons trigger actions when clicked.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9646;</span>
+        <span class="lbl">Button</span>
+      </button>
+      <!-- Input element -->
+      <button id="addInputBtn" class="rbtn"
+          data-tip
+          data-tip-title="Input"
+          data-tip-p1="Inserts a text &lt;input&gt; field."
+          data-tip-p2="Use for forms and user-entered data.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">[ _ ]</span>
+        <span class="lbl">Input</span>
+      </button>
+      <!-- Video element -->
+      <button id="addVideoBtn" class="rbtn"
+          data-tip
+          data-tip-title="Video"
+          data-tip-p1="Inserts a &lt;video&gt; element."
+          data-tip-p2="Set the src attribute to load a video file.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9654;</span>
+        <span class="lbl">Video</span>
+      </button>
+      <!-- List Builder button -->
+      <button id="addListBtn" class="rbtn"
+          data-tip
+          data-tip-title="Insert List"
+          data-tip-p1="Opens the list builder to insert a &lt;ul&gt; or &lt;ol&gt; list."
+          data-tip-p2="Each line you enter becomes a list item.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9783;</span>
+        <span class="lbl">List</span>
+      </button>
+      <!-- Table Builder button -->
+      <button id="addTableBtn" class="rbtn"
+          data-tip
+          data-tip-title="Insert Table"
+          data-tip-p1="Opens the table builder to insert an HTML &lt;table&gt;."
+          data-tip-p2="Set rows, columns, and an optional header row.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9783;</span>
+        <span class="lbl">Table</span>
+      </button>
+    </div>
+    <div class="group-label">Insert</div>
+  </div>
+
+  <div class="group-sep"></div>
+
+  <div class="group">
+    <div class="group-body">
+      <!-- ID Picker: searchable vertical dropdown, like font family -->
+      <div class="id-picker" id="idPicker">
+        <div class="ip-input-wrap">
+          <span class="ip-hash">#</span>
+          <input type="text" id="idPickerInput" class="ip-input"
+                 placeholder="element-id" autocomplete="off" spellcheck="false" />
+          <button class="ip-arrow" id="idPickerArrow" tabindex="-1" type="button">&#9660;</button>
+        </div>
+        <div class="ip-dropdown" id="idPickerDropdown"></div>
+      </div>
+      <button id="idPickerSetBtn" class="icon-btn" title="Apply this ID to the selected element">Set</button>
+      <button id="idPickerRemoveBtn" class="icon-btn" title="Remove ID from element">&#x2715;</button>
+    </div>
+    <div class="group-label">ID</div>
+  </div>
+
+  <div class="group-sep"></div>
+
+  <div class="group">
+    <div class="group-body">
+      <div class="vstack">
+        <button id="alignLeftBtn" class="smbtn" data-tip data-tip-title="Align Left" data-tip-p1="Move the selected element to the left edge of the canvas.">
+          <span class="tip-progress"></span><span class="sico">&#8676;</span> Left
+        </button>
+        <button id="alignCenterHBtn" class="smbtn" data-tip data-tip-title="Center Horizontally" data-tip-p1="Center the selected element horizontally on the canvas.">
+          <span class="tip-progress"></span><span class="sico">&#8596;</span> Center
+        </button>
+        <button id="alignRightBtn" class="smbtn" data-tip data-tip-title="Align Right" data-tip-p1="Move the selected element to the right edge of the canvas.">
+          <span class="tip-progress"></span><span class="sico">&#8677;</span> Right
+        </button>
+      </div>
+      <div class="vstack">
+        <button id="alignTopBtn" class="smbtn" data-tip data-tip-title="Align Top" data-tip-p1="Move the selected element to the top edge of the canvas.">
+          <span class="tip-progress"></span><span class="sico">&#8679;</span> Top
+        </button>
+        <button id="alignCenterVBtn" class="smbtn" data-tip data-tip-title="Center Vertically" data-tip-p1="Center the selected element vertically on the canvas.">
+          <span class="tip-progress"></span><span class="sico">&#8597;</span> Middle
+        </button>
+        <button id="alignBottomBtn" class="smbtn" data-tip data-tip-title="Align Bottom" data-tip-p1="Move the selected element to the bottom edge of the canvas.">
+          <span class="tip-progress"></span><span class="sico">&#8681;</span> Bottom
+        </button>
+      </div>
+    </div>
+    <div class="group-label">Align</div>
+  </div>
+
+  <div class="group-sep"></div>
+
+  <div class="group">
+    <div class="group-body">
+      <div class="vstack">
+        <button id="layerFrontBtn" class="smbtn" data-tip data-tip-title="Bring to Front" data-tip-p1="Move the selected element above all others.">
+          <span class="tip-progress"></span><span class="sico">&#8607;</span> Front
+        </button>
+        <button id="layerForwardBtn" class="smbtn" data-tip data-tip-title="Bring Forward" data-tip-p1="Increase the selected element's z-index by 1.">
+          <span class="tip-progress"></span><span class="sico">&#8593;</span> Forward
+        </button>
+      </div>
+      <div class="vstack">
+        <button id="layerBackBtn" class="smbtn" data-tip data-tip-title="Send Back" data-tip-p1="Decrease the selected element's z-index by 1.">
+          <span class="tip-progress"></span><span class="sico">&#8595;</span> Back
+        </button>
+        <button id="layerBottomBtn" class="smbtn" data-tip data-tip-title="Send to Back" data-tip-p1="Move the selected element below all others.">
+          <span class="tip-progress"></span><span class="sico">&#8609;</span> Bottom
+        </button>
+      </div>
+    </div>
+    <div class="group-label">Layer</div>
+  </div>
+
+  <div class="group-sep"></div>
+
+  <div class="group">
+    <div class="group-body">
+      <button id="gridToggleBtn" class="rbtn" data-tip
+          data-tip-title="Toggle Grid"
+          data-tip-p1="Show or hide a snap grid overlay in the preview."
+          data-tip-p2="Elements will snap to grid lines while dragging. Hold Ctrl to bypass snapping.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#8985;</span>
+        <span class="lbl">Grid</span>
+      </button>
+    </div>
+    <div class="group-label">Canvas</div>
+  </div>
+
+  <div class="group-sep"></div>
+
+  <div class="group">
+    <div class="group-body">
+      <button id="addSectionBtn" class="rbtn" data-tip
+          data-tip-title="Section"
+          data-tip-p1="Inserts a &lt;section&gt; semantic block."
+          data-tip-p2="Use sections to group related content.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9633;</span>
+        <span class="lbl">Section</span>
+      </button>
+      <button id="addNavBtn" class="rbtn" data-tip
+          data-tip-title="Nav"
+          data-tip-p1="Inserts a &lt;nav&gt; navigation bar."
+          data-tip-p2="Contains links for site navigation.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#8801;</span>
+        <span class="lbl">Nav</span>
+      </button>
+      <button id="addFooterBtn" class="rbtn" data-tip
+          data-tip-title="Footer"
+          data-tip-p1="Inserts a &lt;footer&gt; element."
+          data-tip-p2="Typically holds copyright and contact info.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9644;</span>
+        <span class="lbl">Footer</span>
+      </button>
+      <button id="addFormBtn" class="rbtn" data-tip
+          data-tip-title="Form"
+          data-tip-p1="Inserts a &lt;form&gt; with name and email fields."
+          data-tip-p2="Forms collect user input.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9741;</span>
+        <span class="lbl">Form</span>
+      </button>
+    </div>
+    <div class="group-label">Semantic</div>
+  </div>
+
+  <div class="group-sep"></div>
+
+  <div class="group">
+    <div class="group-body">
+      <button id="insertComponentBtn" class="rbtn large" data-tip
+          data-tip-title="Component Library"
+          data-tip-p1="Browse and insert pre-built components into your page."
+          data-tip-p2="Hero sections, cards, navbars, forms, and more.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9741;</span>
+        <span class="lbl">Components</span>
+      </button>
+    </div>
+    <div class="group-label">Library</div>
+  </div>
+</section>
+
+<!-- JS Editor Ribbon -->
+<section id="jsEditorRibbon" class="ribbon-panel hidden">
+
+  <div class="group">
+    <div class="group-body">
+
+      <button id="jsInsertFunctionBtn" class="rbtn"
+          data-tip
+          data-tip-title="Insert Function"
+          data-tip-p1="Appends a named function template to script.js."
+          data-tip-p2="A reusable block of code you can call by name.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#402;</span>
+        <span class="lbl">Function</span>
+      </button>
+
+      <button id="jsInsertArrowBtn" class="rbtn"
+          data-tip
+          data-tip-title="Insert Arrow Function"
+          data-tip-p1="Appends a const arrow function to script.js."
+          data-tip-p2="A concise modern function syntax: const fn = () => {}.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#8658;</span>
+        <span class="lbl">Arrow Fn</span>
+      </button>
+
+      <button id="jsInsertLogBtn" class="rbtn"
+          data-tip
+          data-tip-title="Insert console.log"
+          data-tip-p1="Appends a console.log() call to script.js."
+          data-tip-p2="Output appears in the browser DevTools console.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">log</span>
+        <span class="lbl">Console</span>
+      </button>
+
+    </div>
+    <div class="group-label">Snippets</div>
+  </div>
+
+  <div class="group-sep"></div>
+
+  <div class="group">
+    <div class="group-body">
+
+      <button id="jsInsertQueryBtn" class="rbtn"
+          data-tip
+          data-tip-title="Insert querySelector"
+          data-tip-p1="Appends a document.querySelector() call to script.js."
+          data-tip-p2="Selects an element by CSS selector (ID, class, tag).">
+        <span class="tip-progress"></span>
+        <span class="ico sm">#</span>
+        <span class="lbl">Select</span>
+      </button>
+
+      <button id="jsInsertEventBtn" class="rbtn"
+          data-tip
+          data-tip-title="Insert Event Listener"
+          data-tip-p1="Appends a DOMContentLoaded listener to script.js."
+          data-tip-p2="Wraps your code to run after the page fully loads.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9889;</span>
+        <span class="lbl">Event</span>
+      </button>
+
+    </div>
+    <div class="group-label">DOM</div>
   </div>
 
 </section>
 
-    <header id="toolbar">
-      <div id="toolbarCenter">
-        <!-- Font tools -->
+<!-- CSS Editor Ribbon -->
+<section id="cssEditorRibbon" class="ribbon-panel hidden">
 
+  <div class="group">
+    <div class="group-body">
+      <button id="buildCssClassBtn" class="rbtn large">
+        <span class="ico sm">+</span>
+        <span class="lbl">Build Class</span>
+      </button>
+      <button id="animBuilderBtn" class="rbtn large">
+        <span class="ico sm">&#9654;</span>
+        <span class="lbl">Animate</span>
+      </button>
+    </div>
+    <div class="group-label">New</div>
+  </div>
 
+  <div class="group-sep"></div>
 
-
-      <div id="toolbarRight">
-        <!-- leave empty for now -->
+  <div class="group">
+    <div class="group-body">
+      <!-- CSS Class Picker: searchable dropdown, mirrors the ID Picker pattern -->
+      <div class="css-class-picker" id="cssClassPicker">
+        <div class="cp-input-wrap">
+          <span class="cp-dot">&#9679;</span>
+          <input type="text" id="cssClassInput" class="cp-input"
+                 placeholder="class-name" autocomplete="off" spellcheck="false" />
+          <button class="cp-arrow" id="cssClassArrow" tabindex="-1" type="button">&#9660;</button>
+        </div>
+        <div class="cp-dropdown" id="cssClassDropdown"></div>
       </div>
-    </header>
+      <button id="cssClassApplyBtn" class="icon-btn" title="Apply class to selected element">Apply</button>
+      <button id="cssClassEditBtn" class="icon-btn" title="Edit this class">Edit</button>
+      <button id="cssClassDeleteBtn" class="icon-btn" title="Delete this class">&#x2715;</button>
+    </div>
+    <div class="group-label">Classes</div>
+  </div>
+
+</section>
 
     <!-- Main working area -->
     <main id="workspace">
 
       <!-- Code editor panel -->
       <section id="codePanel">
-        <textarea id="htmlInput"><p class="draggable-item" contenteditable="true" style="position: absolute; left: 50px; top: 50px;">
+
+        <!-- VS Code-style file explorer sidebar -->
+        <div id="fileExplorer">
+          <div class="fe-header">Explorer</div>
+
+          <!-- Pages section (HTML pages, dynamically rendered) -->
+          <div class="fe-section-header">
+            <span class="fe-section-name fe-pages-name">&#9656; Pages</span>
+            <button id="feAddPageBtn" class="fe-add-btn" title="Add new page">+</button>
+          </div>
+          <div class="fe-page-list" id="fePageList"></div>
+
+          <!-- Shared files section (CSS + JS) -->
+          <div class="fe-section-header">
+            <span class="fe-section-name">&#9656; Files</span>
+          </div>
+          <div class="fe-file-list">
+            <div id="feCssFile" class="fe-file">
+              <span class="fe-icon fe-css">C</span>
+              <span class="fe-file-name">styles.css</span>
+            </div>
+            <div id="feJsFile" class="fe-file">
+              <span class="fe-icon fe-js">J</span>
+              <span class="fe-file-name">script.js</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Editor area: shows either the HTML or CSS textarea -->
+        <div id="editorArea">
+          <textarea id="htmlInput"><p class="draggable-item" contenteditable="true" style="position: absolute; left: 50px; top: 50px;">
   Drag me around
 </p>
 
@@ -123,20 +524,622 @@
 
   <p contenteditable="true">Resize me</p>
 </div></textarea>
+          <textarea id="cssInput" class="hidden" placeholder="/* Write CSS here. Classes built with the CSS Editor appear here too. */"></textarea>
+          <textarea id="jsInput" class="hidden" placeholder="// Write JavaScript here..."></textarea>
+        </div>
+
       </section>
 
-      <!-- Live preview panel -->
-      <section id="previewPanel" style="background-color: white;">
+      <!-- Live preview panel (default view) -->
+      <section id="previewPanel">
+        <!-- Properties panel (left side) -->
+        <div id="propertiesPanel">
+          <div class="pp-header">
+            <span>Properties</span>
+            <button id="propertiesCloseBtn" class="pp-header-close">&#x2715;</button>
+          </div>
+          <div id="propertiesContent">
+            <div class="pp-empty">Click an element in the preview to edit its properties.</div>
+          </div>
+        </div>
+
         <iframe id="previewFrame"></iframe>
+        <!-- DOM Inspector panel (right side, toggled by Inspector tab button) -->
+        <div id="inspectorPanel">
+          <div class="insp-header">
+            <span>DOM Inspector</span>
+            <button id="inspectorCloseBtn" class="insp-header-close">&#x2715;</button>
+          </div>
+          <div id="inspectorTree"></div>
+        </div>
       </section>
 
     </main>
+  </div>
+
+  <!-- Floating text-format toolbar (appears above selected text in iframe) -->
+  <div id="formatToolbar">
+    <button id="fmtBoldBtn"   class="fmt-btn bold"          title="Bold">B</button>
+    <button id="fmtItalicBtn" class="fmt-btn italic"        title="Italic">I</button>
+    <button id="fmtUnderlineBtn" class="fmt-btn underline"  title="Underline">U</button>
+    <button id="fmtStrikeBtn" class="fmt-btn strikethrough" title="Strikethrough">S</button>
+    <div class="fmt-sep"></div>
+    <div class="fmt-color-wrap" title="Text Color">
+      <span class="fmt-color-label">A</span>
+      <span class="fmt-color-bar" id="fmtColorBar"></span>
+      <input type="color" id="fmtColorInput" value="#ff0000">
+    </div>
+    <div class="fmt-sep"></div>
+    <button id="fmtClearBtn" class="fmt-btn" title="Clear Formatting">&#x2715;</button>
   </div>
 
   <!-- Single shared tooltip element -->
   <div id="ribbon-tooltip">
     <div class="tt-title" id="tt-title"></div>
     <div class="tt-body" id="tt-body"></div>
+  </div>
+
+  <!-- ── Right-click context menu ── -->
+  <div id="elementContextMenu" class="ctx-menu">
+    <div class="ctx-header">
+      <span id="ctxTagLabel" class="ctx-tag"></span>
+      <span id="ctxIdBadge" class="ctx-id-badge"></span>
+    </div>
+    <button id="ctxCopyBtn" class="ctx-item">
+      <span class="ctx-ico">&#9113;</span>
+      Copy
+    </button>
+    <button id="ctxDuplicateBtn" class="ctx-item">
+      <span class="ctx-ico">&#9112;</span>
+      Duplicate
+    </button>
+    <button id="ctxPasteBtn" class="ctx-item">
+      <span class="ctx-ico">&#9111;</span>
+      Paste
+    </button>
+    <button id="ctxDeleteBtn" class="ctx-item ctx-item-danger">
+      <span class="ctx-ico ctx-ico-danger">&#x2715;</span>
+      Delete
+    </button>
+    <div class="ctx-sep"></div>
+    <button id="ctxSetId" class="ctx-item">
+      <span class="ctx-ico">#</span>
+      Set ID
+    </button>
+    <button id="ctxAddComment" class="ctx-item">
+      <span class="ctx-ico">&lt;!--</span>
+      Add Comment
+    </button>
+    <button id="ctxAddCssClass" class="ctx-item">
+      <span class="ctx-ico">.</span>
+      Add CSS Class
+    </button>
+    <!-- Inline class picker — expands when Add CSS Class is clicked -->
+    <div id="ctxClassPanel" class="ctx-class-panel">
+      <input type="text" id="ctxClassSearch" class="ctx-class-search"
+             placeholder="Search classes..." autocomplete="off">
+      <div id="ctxClassList" class="ctx-class-list"></div>
+    </div>
+  </div>
+
+  <!-- ── Set ID modal ── -->
+  <div id="setIdModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-title">Set Element ID</div>
+      <div class="modal-body">
+        <div class="modal-label">
+          Element: <span id="setIdElementTag" class="modal-element-tag"></span>
+        </div>
+        <input
+          type="text"
+          id="setIdInput"
+          class="modal-input"
+          placeholder="my-element-id"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <div class="modal-hint">
+          Must start with a letter or underscore. Only letters, numbers, hyphens, and underscores allowed. No spaces.
+        </div>
+        <div id="setIdError" class="modal-error"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="setIdCancel" class="modal-btn">Cancel</button>
+        <button id="setIdConfirm" class="modal-btn primary">Set ID</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Add Comment modal ── -->
+  <div id="addCommentModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-title">Add Comment</div>
+      <div class="modal-body">
+        <div class="modal-label">
+          Comment placed above: <span id="addCommentElementTag" class="modal-element-tag"></span>
+        </div>
+        <textarea
+          id="addCommentInput"
+          class="modal-textarea"
+          placeholder="Enter your comment text here..."
+          spellcheck="false"
+        ></textarea>
+        <div class="modal-hint">
+          The comment will appear as &lt;!-- text --&gt; in the HTML, directly above the element. Leave empty to remove an existing comment.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="addCommentCancel" class="modal-btn">Cancel</button>
+        <button id="addCommentConfirm" class="modal-btn primary">Save Comment</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Build CSS Class modal ── -->
+  <div id="classBuilderModal" class="modal-overlay">
+    <div class="modal-box cb-modal-box">
+      <div class="modal-title">Build CSS Class</div>
+      <div class="modal-body">
+
+        <!-- Class name -->
+        <div class="cb-name-row">
+          <label class="cb-label" for="cbClassNameInput">Class Name</label>
+          <input type="text" id="cbClassNameInput" class="modal-input"
+                 placeholder="my-class-name" autocomplete="off" spellcheck="false" />
+          <div id="classBuilderError" class="modal-error"></div>
+        </div>
+
+        <!-- State tabs: Default / :hover / :focus / :active -->
+        <div class="cb-state-tabs">
+          <button class="cb-state-tab active" data-state="">Default</button>
+          <button class="cb-state-tab" data-state=":hover">:hover</button>
+          <button class="cb-state-tab" data-state=":focus">:focus</button>
+          <button class="cb-state-tab" data-state=":active">:active</button>
+        </div>
+
+        <!-- 2-column property grid -->
+        <div class="cb-form">
+
+          <div class="cb-section-title">Text</div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbColor">Color</label>
+            <input type="text" id="cbColor" class="cb-input" placeholder="e.g. red, #ff0000">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbFontFamily">Font Family</label>
+            <input type="text" id="cbFontFamily" class="cb-input" placeholder="e.g. Arial, sans-serif">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbFontSize">Font Size</label>
+            <input type="text" id="cbFontSize" class="cb-input" placeholder="e.g. 16px, 1.2rem">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbTextAlign">Text Align</label>
+            <input type="text" id="cbTextAlign" class="cb-input" placeholder="e.g. center, left">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbTextDecoration">Text Decoration</label>
+            <input type="text" id="cbTextDecoration" class="cb-input" placeholder="e.g. underline, none">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbLineHeight">Line Height</label>
+            <input type="text" id="cbLineHeight" class="cb-input" placeholder="e.g. 1.5, 24px">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbFontWeight">Font Weight</label>
+            <input type="text" id="cbFontWeight" class="cb-input" placeholder="e.g. bold, 700">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbLetterSpacing">Letter Spacing</label>
+            <input type="text" id="cbLetterSpacing" class="cb-input" placeholder="e.g. 0.05em, 2px">
+          </div>
+
+          <div class="cb-section-title">Spacing</div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbMargin">Margin</label>
+            <input type="text" id="cbMargin" class="cb-input" placeholder="e.g. 10px, 0 auto">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbPadding">Padding</label>
+            <input type="text" id="cbPadding" class="cb-input" placeholder="e.g. 5px 10px">
+          </div>
+
+          <div class="cb-section-title">Box</div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbWidth">Width</label>
+            <input type="text" id="cbWidth" class="cb-input" placeholder="e.g. 100%, 200px">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbHeight">Height</label>
+            <input type="text" id="cbHeight" class="cb-input" placeholder="e.g. 50px, auto">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbBorder">Border</label>
+            <input type="text" id="cbBorder" class="cb-input" placeholder="e.g. 1px solid #000">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbBorderRadius">Border Radius</label>
+            <input type="text" id="cbBorderRadius" class="cb-input" placeholder="e.g. 4px, 50%">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbOverflow">Overflow</label>
+            <input type="text" id="cbOverflow" class="cb-input" placeholder="e.g. hidden, auto">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbDisplay">Display</label>
+            <input type="text" id="cbDisplay" class="cb-input" placeholder="e.g. block, flex">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbFloat">Float</label>
+            <input type="text" id="cbFloat" class="cb-input" placeholder="e.g. left, right, none">
+          </div>
+
+          <div class="cb-section-title">Background</div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbBgColor">Background Color</label>
+            <input type="text" id="cbBgColor" class="cb-input" placeholder="e.g. #fff, blue">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbBgImage">Background Image</label>
+            <input type="text" id="cbBgImage" class="cb-input" placeholder='e.g. url("image.jpg")'>
+          </div>
+
+          <div class="cb-section-title">Effects</div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbOpacity">Opacity</label>
+            <input type="text" id="cbOpacity" class="cb-input" placeholder="e.g. 0.8, 1">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbBoxShadow">Box Shadow</label>
+            <input type="text" id="cbBoxShadow" class="cb-input" placeholder="e.g. 0 2px 8px rgba(0,0,0,0.2)">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbTransform">Transform</label>
+            <input type="text" id="cbTransform" class="cb-input" placeholder="e.g. rotate(45deg)">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbTransition">Transition</label>
+            <input type="text" id="cbTransition" class="cb-input" placeholder="e.g. all 0.3s ease">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbCursor">Cursor</label>
+            <input type="text" id="cbCursor" class="cb-input" placeholder="e.g. pointer, default">
+          </div>
+
+          <div class="cb-section-title">Position</div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbPosition">Position</label>
+            <input type="text" id="cbPosition" class="cb-input" placeholder="e.g. relative, absolute">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbZIndex">Z-Index</label>
+            <input type="text" id="cbZIndex" class="cb-input" placeholder="e.g. 10, 100">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbTop">Top</label>
+            <input type="text" id="cbTop" class="cb-input" placeholder="e.g. 0, 20px">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbLeft">Left</label>
+            <input type="text" id="cbLeft" class="cb-input" placeholder="e.g. 0, 20px">
+          </div>
+
+          <div class="cb-section-title">Flexbox</div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbFlexDirection">Flex Direction</label>
+            <input type="text" id="cbFlexDirection" class="cb-input" placeholder="e.g. row, column">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbJustifyContent">Justify Content</label>
+            <input type="text" id="cbJustifyContent" class="cb-input" placeholder="e.g. center, space-between">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbAlignItems">Align Items</label>
+            <input type="text" id="cbAlignItems" class="cb-input" placeholder="e.g. center, stretch">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbFlexWrap">Flex Wrap</label>
+            <input type="text" id="cbFlexWrap" class="cb-input" placeholder="e.g. wrap, nowrap">
+          </div>
+          <div class="cb-field">
+            <label class="cb-label" for="cbGap">Gap</label>
+            <input type="text" id="cbGap" class="cb-input" placeholder="e.g. 10px, 1rem">
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="classBuilderCancel" class="modal-btn">Cancel</button>
+        <button id="classBuilderConfirm" class="modal-btn primary">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── List Builder modal ── -->
+  <div id="listBuilderModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-title">Insert List</div>
+      <div class="modal-body">
+        <div class="modal-label">List Type</div>
+        <div class="lb-type-row">
+          <label class="lb-radio"><input type="radio" name="lbType" value="ul" checked> Unordered (•)</label>
+          <label class="lb-radio"><input type="radio" name="lbType" value="ol"> Ordered (1.)</label>
+        </div>
+        <div class="modal-label">Items <span class="modal-hint">(one per line)</span></div>
+        <textarea id="lbItemsInput" class="modal-textarea" placeholder="Item 1&#10;Item 2&#10;Item 3" rows="5"></textarea>
+        <div class="modal-label">CSS Class <span class="modal-hint">(optional)</span></div>
+        <input type="text" id="lbClassInput" class="modal-input" placeholder="my-list-class" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="modal-footer">
+        <button id="listBuilderCancel" class="modal-btn">Cancel</button>
+        <button id="listBuilderConfirm" class="modal-btn primary">Insert List</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Table Builder modal ── -->
+  <div id="tableBuilderModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-title">Insert Table</div>
+      <div class="modal-body">
+        <div class="tb-size-row">
+          <div class="tb-size-field">
+            <label class="modal-label" for="tbRowsInput">Rows</label>
+            <input type="number" id="tbRowsInput" class="modal-input tb-number" value="3" min="1" max="50">
+          </div>
+          <div class="tb-size-field">
+            <label class="modal-label" for="tbColsInput">Columns</label>
+            <input type="number" id="tbColsInput" class="modal-input tb-number" value="3" min="1" max="20">
+          </div>
+        </div>
+        <label class="lb-check-row">
+          <input type="checkbox" id="tbHeaderCheck" checked>
+          Include header row (&lt;thead&gt;)
+        </label>
+        <div class="modal-label">CSS Class <span class="modal-hint">(optional)</span></div>
+        <input type="text" id="tbClassInput" class="modal-input" placeholder="my-table-class" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="modal-footer">
+        <button id="tableBuilderCancel" class="modal-btn">Cancel</button>
+        <button id="tableBuilderConfirm" class="modal-btn primary">Insert Table</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── New Project modal ── -->
+  <div id="newProjectModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-title">New Project</div>
+      <div class="modal-body">
+        <div class="modal-label">Project Name</div>
+        <input
+          type="text"
+          id="newProjectNameInput"
+          class="modal-input"
+          placeholder="my-project"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <div id="newProjectError" class="modal-error"></div>
+        <div class="modal-hint">
+          A folder with this name will be created inside an
+          <strong>OpenBuilder</strong> directory at the location you choose.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="newProjectCancel"  class="modal-btn">Cancel</button>
+        <button id="newProjectConfirm" class="modal-btn primary">Choose Location &rsaquo;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Component Library modal ── -->
+  <div id="componentLibraryModal" class="modal-overlay">
+    <div class="modal-box comp-lib-box">
+      <div class="comp-lib-header">
+        <span class="comp-lib-header-title">Component Library</span>
+        <button id="compLibCloseBtn" class="comp-lib-close">&#x2715;</button>
+      </div>
+      <div class="cl-cat-tabs">
+        <button class="cl-cat-tab active" data-cat="All">All</button>
+        <button class="cl-cat-tab" data-cat="Layout">Layout</button>
+        <button class="cl-cat-tab" data-cat="Navigation">Navigation</button>
+        <button class="cl-cat-tab" data-cat="Content">Content</button>
+        <button class="cl-cat-tab" data-cat="Forms">Forms</button>
+      </div>
+      <div class="cl-grid-wrap">
+        <div class="cl-grid" id="compLibGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Animation & Transition Builder modal ── -->
+  <div id="animBuilderModal" class="modal-overlay">
+    <div class="ab-modal-box">
+      <div class="modal-header">
+        <span>Animation &amp; Transition Builder</span>
+        <button id="animBuilderClose" class="modal-close">&#x2715;</button>
+      </div>
+
+      <!-- Tab bar -->
+      <div class="ab-tabs">
+        <button id="abTransitionTab" class="ab-tab active">Transition</button>
+        <button id="abAnimationTab"  class="ab-tab">Animation</button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Target class (shared by both tabs) -->
+        <div class="ab-target-row">
+          <label class="ab-label" for="abTargetClass">Target Class</label>
+          <input type="text" id="abTargetClass" class="ab-input"
+                 placeholder="my-class (without the dot)" autocomplete="off" spellcheck="false">
+        </div>
+
+        <!-- ══ Transition panel ══ -->
+        <div id="abTransitionPanel">
+          <div class="ab-grid">
+            <div class="ab-field">
+              <label class="ab-label" for="abTrProperty">Property</label>
+              <select id="abTrProperty" class="ab-select">
+                <option value="all">all</option>
+                <option value="opacity">opacity</option>
+                <option value="color">color</option>
+                <option value="background-color">background-color</option>
+                <option value="transform">transform</option>
+                <option value="width">width</option>
+                <option value="height">height</option>
+                <option value="border-color">border-color</option>
+                <option value="box-shadow">box-shadow</option>
+                <option value="filter">filter</option>
+                <option value="font-size">font-size</option>
+                <option value="letter-spacing">letter-spacing</option>
+                <option value="padding">padding</option>
+                <option value="margin">margin</option>
+              </select>
+            </div>
+            <div class="ab-field">
+              <label class="ab-label" for="abTrDuration">Duration</label>
+              <div class="ab-num-unit">
+                <input type="number" id="abTrDuration" class="ab-input" value="300" min="0" step="50">
+                <select id="abTrDurationUnit" class="ab-select-sm">
+                  <option value="ms">ms</option>
+                  <option value="s">s</option>
+                </select>
+              </div>
+            </div>
+            <div class="ab-field">
+              <label class="ab-label" for="abTrTiming">Timing Function</label>
+              <select id="abTrTiming" class="ab-select">
+                <option value="ease">ease</option>
+                <option value="ease-in">ease-in</option>
+                <option value="ease-out">ease-out</option>
+                <option value="ease-in-out">ease-in-out</option>
+                <option value="linear">linear</option>
+                <option value="step-start">step-start</option>
+                <option value="step-end">step-end</option>
+              </select>
+            </div>
+            <div class="ab-field">
+              <label class="ab-label" for="abTrDelay">Delay</label>
+              <div class="ab-num-unit">
+                <input type="number" id="abTrDelay" class="ab-input" value="0" min="0" step="50">
+                <select id="abTrDelayUnit" class="ab-select-sm">
+                  <option value="ms">ms</option>
+                  <option value="s">s</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ Animation panel ══ -->
+        <div id="abAnimationPanel" style="display:none">
+
+          <!-- Presets -->
+          <div class="ab-presets">
+            <span class="ab-presets-label">Presets</span>
+            <button class="ab-preset-btn" data-preset="Fade In">Fade In</button>
+            <button class="ab-preset-btn" data-preset="Fade Out">Fade Out</button>
+            <button class="ab-preset-btn" data-preset="Slide Up">Slide Up</button>
+            <button class="ab-preset-btn" data-preset="Slide Down">Slide Down</button>
+            <button class="ab-preset-btn" data-preset="Slide Left">Slide Left</button>
+            <button class="ab-preset-btn" data-preset="Zoom In">Zoom In</button>
+            <button class="ab-preset-btn" data-preset="Bounce">Bounce</button>
+            <button class="ab-preset-btn" data-preset="Spin">Spin</button>
+            <button class="ab-preset-btn" data-preset="Pulse">Pulse</button>
+            <button class="ab-preset-btn" data-preset="Shake">Shake</button>
+            <button class="ab-preset-btn" data-preset="Flip">Flip</button>
+          </div>
+
+          <!-- Animation properties -->
+          <div class="ab-grid">
+            <div class="ab-field">
+              <label class="ab-label" for="abAnName">@keyframes Name</label>
+              <input type="text" id="abAnName" class="ab-input"
+                     placeholder="my-animation" autocomplete="off" spellcheck="false">
+            </div>
+            <div class="ab-field">
+              <label class="ab-label" for="abAnDuration">Duration</label>
+              <div class="ab-num-unit">
+                <input type="number" id="abAnDuration" class="ab-input" value="500" min="0" step="50">
+                <select id="abAnDurationUnit" class="ab-select-sm">
+                  <option value="ms">ms</option>
+                  <option value="s">s</option>
+                </select>
+              </div>
+            </div>
+            <div class="ab-field">
+              <label class="ab-label" for="abAnTiming">Timing Function</label>
+              <select id="abAnTiming" class="ab-select">
+                <option value="ease">ease</option>
+                <option value="ease-in">ease-in</option>
+                <option value="ease-out">ease-out</option>
+                <option value="ease-in-out">ease-in-out</option>
+                <option value="linear">linear</option>
+                <option value="step-start">step-start</option>
+                <option value="step-end">step-end</option>
+              </select>
+            </div>
+            <div class="ab-field">
+              <label class="ab-label" for="abAnDelay">Delay</label>
+              <div class="ab-num-unit">
+                <input type="number" id="abAnDelay" class="ab-input" value="0" min="0" step="50">
+                <select id="abAnDelayUnit" class="ab-select-sm">
+                  <option value="ms">ms</option>
+                  <option value="s">s</option>
+                </select>
+              </div>
+            </div>
+            <div class="ab-field">
+              <label class="ab-label" for="abAnIterations">Iterations</label>
+              <input type="text" id="abAnIterations" class="ab-input"
+                     value="1" placeholder="1 or infinite">
+            </div>
+            <div class="ab-field">
+              <label class="ab-label" for="abAnDirection">Direction</label>
+              <select id="abAnDirection" class="ab-select">
+                <option value="normal">normal</option>
+                <option value="reverse">reverse</option>
+                <option value="alternate">alternate</option>
+                <option value="alternate-reverse">alternate-reverse</option>
+              </select>
+            </div>
+            <div class="ab-field">
+              <label class="ab-label" for="abAnFillMode">Fill Mode</label>
+              <select id="abAnFillMode" class="ab-select">
+                <option value="none">none</option>
+                <option value="forwards">forwards</option>
+                <option value="backwards">backwards</option>
+                <option value="both">both</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Keyframe stop editor -->
+          <div class="ab-section-title">Keyframe Stops</div>
+          <div class="ab-stops-header">
+            <span>%</span><span></span><span>transform</span>
+            <span>opacity</span><span>bg</span><span>fg</span><span></span>
+          </div>
+          <div id="abKeyframeStops"></div>
+          <button id="abAddStopBtn" class="ab-add-stop-btn">+ Add Stop</button>
+        </div>
+
+        <!-- Generated CSS preview (both tabs) -->
+        <div class="ab-css-preview">
+          <div class="ab-css-preview-label">Generated CSS</div>
+          <pre id="abCssPreview" class="ab-css-code"></pre>
+        </div>
+
+      </div><!-- /.modal-body -->
+
+      <div class="modal-footer">
+        <span id="abError" class="ab-error"></span>
+        <button id="abCancelBtn" class="modal-btn-secondary">Cancel</button>
+        <button id="abApplyBtn"  class="modal-btn-primary">Apply to CSS</button>
+      </div>
+    </div>
   </div>
 
   <script type="module" src="./JavaScript/main.js"></script>

@@ -1,0 +1,177 @@
+/* ══════════════════════════════════════════════
+   Word-style Font Picker
+   ══════════════════════════════════════════════ */
+
+.font-picker {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+/* ── Input wrapper (the visible "box") ── */
+.fp-input-wrap {
+  display: flex;
+  align-items: center;
+  width: 148px;
+  height: 22px;
+  border: 1px solid #adadad;
+  border-radius: 2px;
+  background: #fff;
+  transition: border-color 0.1s, box-shadow 0.1s;
+  overflow: hidden;
+}
+
+.fp-input-wrap:hover {
+  border-color: #0078d4;
+}
+
+.fp-input-wrap:focus-within {
+  border-color: #0078d4;
+  box-shadow: 0 0 0 1px #0078d4;
+}
+
+/* ── The text input ── */
+.fp-input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  padding: 0 4px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  color: #1f1f1f;
+  background: transparent;
+  min-width: 0;
+}
+
+.fp-input::selection {
+  background: #cce4f7;
+}
+
+/* ── Dropdown arrow button ── */
+.fp-arrow {
+  flex-shrink: 0;
+  width: 18px;
+  height: 100%;
+  border: none;
+  border-left: 1px solid #d0d0d0;
+  background: #f5f5f5;
+  color: #555;
+  font-size: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.1s;
+}
+
+.fp-arrow:hover {
+  background: #e5f0fb;
+}
+
+.fp-arrow:active {
+  background: #cce4f7;
+}
+
+/* ── Dropdown panel ── */
+.fp-dropdown {
+  display: none;
+  position: fixed;          /* fixed so it escapes overflow:hidden ribbon */
+  z-index: 99999;
+  background: #fff;
+  border: 1px solid #c8c8c8;
+  border-top: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  width: 220px;
+  max-height: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 2px 0;
+  /* custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 transparent;
+}
+
+.fp-dropdown::-webkit-scrollbar { width: 8px; }
+.fp-dropdown::-webkit-scrollbar-track { background: transparent; }
+.fp-dropdown::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+.fp-dropdown::-webkit-scrollbar-thumb:hover { background: #a0a0a0; }
+
+.fp-dropdown.open {
+  display: block;
+}
+
+/* ── Section headers (Recently Used / All Fonts) ── */
+.fp-section-header {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: #605e5c;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 6px 10px 3px;
+  background: #f5f5f5;
+  border-bottom: 1px solid #e8e8e8;
+  user-select: none;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.fp-section-header:not(:first-child) {
+  border-top: 1px solid #e0e0e0;
+}
+
+/* ── Divider line ── */
+.fp-divider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 2px 0;
+}
+
+/* ── Individual font row ── */
+.fp-item {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  height: 26px;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  color: #1f1f1f;
+  user-select: none;
+  transition: background 0.08s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fp-item:hover,
+.fp-item.focused {
+  background: #e5f0fb;
+}
+
+.fp-item.selected {
+  background: #cce4f7;
+  color: #004578;
+  font-weight: 600;
+}
+
+/* The font name rendered in its own typeface */
+.fp-item-preview {
+  font-size: 14px;
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* No-results message */
+.fp-no-results {
+  padding: 8px 10px;
+  font-size: 11px;
+  color: #888;
+  font-family: 'Segoe UI', sans-serif;
+  font-style: italic;
+}

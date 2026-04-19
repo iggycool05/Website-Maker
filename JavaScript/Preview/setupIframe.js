@@ -1,23 +1,32 @@
 import { elements } from "../DOM/elements.js";
-import { state } from "../State/editorState.js";
+import { state, onSelectionChange, onIframeLoad } from "../State/editorState.js";
 import {
   attachTextSelectionListeners,
   clearSelectedTextHighlight,
   updateFontSizeDisplay,
-  updateFontSizeFromSelection
-} from "../Features/textSelection.js";
+  updateFontFamilyDisplay,
+  updateFontSizeFromSelection,
+  updateFontFamilyFromSelection
+} from "../HTML Features/textSelection.js";
 import {
   handleMouseDown,
   handleMouseMove,
   handleMouseUp
-} from "../Features/dragResize.js";
-import { saveIframeToTextarea } from "../Features/fontSize.js";
+} from "../HTML Features/dragResize.js";
+import { saveIframeToTextarea } from "../HTML Features/fontSize.js";
+import {
+  handleIframeContextMenu,
+  hideContextMenu
+} from "../HTML Features/contextMenu.js";
+import { initSnapGuides } from "../HTML Features/snapGuides.js";
 
 export function handleIframeClick(e) {
   if (e.target === state.iframeDoc.body) {
     clearSelectedTextHighlight();
     state.selectedTextElement = null;
     updateFontSizeDisplay();
+    updateFontFamilyDisplay();
+    onSelectionChange.forEach(fn => fn());
   }
 }
 
@@ -26,6 +35,7 @@ export function handleIframeInput() {
 
   if (state.selectedTextElement) {
     updateFontSizeDisplay();
+    updateFontFamilyDisplay();
   }
 }
 
@@ -38,8 +48,10 @@ export function setupIframe() {
 
   state.selectedTextElement = null;
   updateFontSizeDisplay();
+  updateFontFamilyDisplay();
 
   attachTextSelectionListeners();
+  initSnapGuides();
 
   state.iframeDoc.addEventListener("mousedown", handleMouseDown);
   state.iframeDoc.addEventListener("mousemove", handleMouseMove);
@@ -47,4 +59,10 @@ export function setupIframe() {
   state.iframeDoc.addEventListener("click", handleIframeClick);
   state.iframeDoc.addEventListener("input", handleIframeInput);
   state.iframeDoc.addEventListener("keyup", updateFontSizeFromSelection);
+  state.iframeDoc.addEventListener("keyup", updateFontFamilyFromSelection);
+  state.iframeDoc.addEventListener("contextmenu", handleIframeContextMenu);
+  // Close the context menu whenever the user clicks inside the iframe
+  state.iframeDoc.addEventListener("mousedown", hideContextMenu);
+
+  onIframeLoad.forEach(fn => fn());
 }

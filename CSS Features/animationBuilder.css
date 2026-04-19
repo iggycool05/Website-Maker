@@ -1,0 +1,430 @@
+/* ══════════════════════════════════════════════════════════
+   Animation & Transition Builder Modal
+   ══════════════════════════════════════════════════════════ */
+
+.ab-modal-box {
+  width: 640px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.24);
+  overflow: hidden;
+}
+
+/* ── Top tab bar ── */
+
+.ab-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 0 16px;
+  border-bottom: 2px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.ab-tab {
+  padding: 6px 18px;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  background: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #666;
+  position: relative;
+  bottom: -2px;
+  transition: background 0.1s, color 0.1s;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.ab-tab:hover   { background: #f3f4f6; color: #333; }
+.ab-tab.active  {
+  background: #fff;
+  border-color: #e5e7eb;
+  border-bottom-color: #fff;
+  color: #0078d4;
+  font-weight: 700;
+}
+
+/* ── Modal body ── */
+
+.ab-modal-box .modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 16px;
+  min-height: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 transparent;
+}
+
+.ab-modal-box .modal-body::-webkit-scrollbar       { width: 7px; }
+.ab-modal-box .modal-body::-webkit-scrollbar-track { background: transparent; }
+.ab-modal-box .modal-body::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+
+/* ── Target class row ── */
+
+.ab-target-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.ab-target-row .ab-label { white-space: nowrap; }
+
+.ab-target-row .ab-input {
+  flex: 1;
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+
+/* ── 2-column field grid ── */
+
+.ab-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 20px;
+  margin-bottom: 12px;
+}
+
+.ab-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Full-width field */
+.ab-field.full-width {
+  grid-column: 1 / -1;
+}
+
+/* ── Common input styles ── */
+
+.ab-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+
+.ab-input,
+.ab-select {
+  height: 26px;
+  border: 1px solid #c0c0c0;
+  border-radius: 3px;
+  padding: 0 7px;
+  font-size: 12px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: #1f1f1f;
+  background: #fafafa;
+  outline: none;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.ab-input:focus,
+.ab-select:focus {
+  border-color: #0078d4;
+  background: #fff;
+  box-shadow: 0 0 0 1px #0078d4;
+}
+
+/* ── Number + unit combos ── */
+
+.ab-num-unit {
+  display: flex;
+  gap: 4px;
+}
+
+.ab-num-unit .ab-input  { flex: 1; min-width: 0; }
+
+.ab-select-sm {
+  width: 52px;
+  height: 26px;
+  border: 1px solid #c0c0c0;
+  border-radius: 3px;
+  padding: 0 4px;
+  font-size: 11px;
+  color: #444;
+  background: #fafafa;
+  outline: none;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.ab-select-sm:focus {
+  border-color: #0078d4;
+  box-shadow: 0 0 0 1px #0078d4;
+}
+
+/* ── Section divider ── */
+
+.ab-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #999;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 4px;
+  margin: 12px 0 8px;
+}
+
+/* ── Preset pills ── */
+
+.ab-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.ab-presets-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+}
+
+.ab-preset-btn {
+  padding: 3px 11px;
+  background: #f0f4ff;
+  border: 1px solid #c7d3f5;
+  border-radius: 14px;
+  font-size: 11px;
+  color: #3a5bd0;
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s, color 0.1s;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.ab-preset-btn:hover {
+  background: #dce6ff;
+  border-color: #6366f1;
+  color: #3730a3;
+}
+
+/* ── Keyframe stop rows ── */
+
+.ab-stops-header {
+  display: grid;
+  grid-template-columns: 52px 10px 1fr 72px 36px 36px 22px;
+  gap: 5px;
+  align-items: center;
+  padding: 0 0 4px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ab-stop-row {
+  display: grid;
+  grid-template-columns: 52px 10px 1fr 72px 36px 36px 22px;
+  gap: 5px;
+  align-items: center;
+  padding: 3px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.ab-stop-pct {
+  width: 100%;
+  height: 24px;
+  border: 1px solid #c0c0c0;
+  border-radius: 3px;
+  padding: 0 5px;
+  font-size: 12px;
+  font-family: 'Consolas', monospace;
+  text-align: center;
+  outline: none;
+  box-sizing: border-box;
+}
+.ab-stop-pct:focus { border-color: #0078d4; }
+
+.ab-stop-sep {
+  font-size: 11px;
+  color: #aaa;
+  text-align: center;
+}
+
+.ab-stop-field {
+  height: 24px;
+  border: 1px solid #c0c0c0;
+  border-radius: 3px;
+  padding: 0 5px;
+  font-size: 11px;
+  font-family: 'Consolas', monospace;
+  outline: none;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+.ab-stop-field:focus { border-color: #0078d4; }
+
+.ab-stop-color-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  cursor: pointer;
+}
+
+.ab-stop-color {
+  width: 30px;
+  height: 18px;
+  border: 1px solid #c0c0c0;
+  border-radius: 3px;
+  padding: 1px;
+  cursor: pointer;
+}
+
+.ab-stop-color-lbl {
+  font-size: 8px;
+  color: #aaa;
+  text-transform: uppercase;
+  line-height: 1;
+  user-select: none;
+}
+
+.ab-stop-remove {
+  background: none;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+  transition: color 0.1s;
+  line-height: 1;
+}
+.ab-stop-remove:hover { color: #e53e3e; }
+
+.ab-add-stop-btn {
+  margin-top: 7px;
+  padding: 5px 12px;
+  background: none;
+  border: 1px dashed #c0c0c0;
+  border-radius: 3px;
+  font-size: 11px;
+  color: #777;
+  cursor: pointer;
+  width: 100%;
+  transition: border-color 0.1s, color 0.1s;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+.ab-add-stop-btn:hover { border-color: #0078d4; color: #0078d4; }
+
+/* ── Generated CSS preview ── */
+
+.ab-css-preview {
+  margin-top: 14px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #2a2a42;
+}
+
+.ab-css-preview-label {
+  padding: 4px 10px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #888;
+  background: #13131f;
+  border-bottom: 1px solid #2a2a42;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.ab-css-code {
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  line-height: 1.7;
+  color: #cdd6f4;
+  background: #1e1e2e;
+  white-space: pre;
+  overflow-x: auto;
+  max-height: 180px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a5a transparent;
+}
+
+/* ── Error text ── */
+
+.ab-error {
+  font-size: 11px;
+  color: #dc2626;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Footer ── */
+
+.ab-modal-box .modal-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-top: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+   Inspector node right-click context menu
+   ══════════════════════════════════════════════════════════ */
+
+#inspCtxMenu {
+  position: fixed;
+  z-index: 100000;
+  background: #ffffff;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  padding: 3px 0;
+  min-width: 200px;
+  display: none;
+}
+
+#inspCtxMenu.open { display: block; }
+
+.insp-ctx-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #1f2937;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  transition: background 0.08s;
+}
+
+.insp-ctx-item:hover { background: #e5f0fb; }
+
+.insp-ctx-icon {
+  font-size: 12px;
+  color: #6366f1;
+  flex-shrink: 0;
+  width: 14px;
+  text-align: center;
+}
+
+.insp-ctx-sep {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 3px 0;
+}

@@ -1,16 +1,12 @@
 import { state } from "../State/editorState.js";
 import { elements } from "../DOM/elements.js";
+import { preserveImagePlaceholders } from "../Utils/imageStore.js";
 import {
   clearSelectedTextHighlight,
   updateFontSizeDisplay
 } from "./textSelection.js";
-
-function preserveImagePlaceholders(bodyClone) {
-  const uploadedImages = bodyClone.querySelectorAll("img[data-upload-id]");
-  uploadedImages.forEach(function (img) {
-    img.removeAttribute("src");
-  });
-}
+import { scheduleSnapshot } from "../Utils/undoRedo.js";
+import { scheduleAutosave } from "../Features/projectStorage.js";
 
 export function saveIframeToTextarea() {
   if (!state.iframeDoc) return;
@@ -24,6 +20,8 @@ export function saveIframeToTextarea() {
 
   preserveImagePlaceholders(bodyClone);
   elements.htmlInput.value = bodyClone.innerHTML.trim();
+  scheduleSnapshot();
+  scheduleAutosave();
 }
 
 export function getSelectedTextRangeInIframe() {

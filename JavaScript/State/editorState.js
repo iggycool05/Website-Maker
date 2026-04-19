@@ -17,3 +17,11 @@ export const state = {
   startLeft: 0,
   startTop: 0
 };
+
+// Callbacks fired whenever the selected element changes (select or deselect).
+// Register by pushing a function; avoid circular imports by using this array.
+export const onSelectionChange = [];
+
+// Callbacks fired each time the iframe reloads and setupIframe() runs.
+// Use this to re-attach iframe-document listeners (selectionchange, etc.).
+export const onIframeLoad = [];

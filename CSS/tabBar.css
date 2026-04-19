@@ -37,3 +37,79 @@
   font-weight: 600;
   z-index: 2;
 }
+
+/* ── File Tab Dropdown ── */
+
+.tab-dropdown-wrap {
+  position: relative;
+}
+
+.tab-dropdown {
+  position: fixed;
+  display: none;
+  flex-direction: column;
+  min-width: 175px;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.14);
+  padding: 4px 0;
+  z-index: 9999;
+}
+
+.tab-dropdown.open {
+  display: flex;
+}
+
+.tab-dropdown button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #111827;
+  cursor: pointer;
+}
+
+.tab-dropdown button:hover {
+  background: #f3f4f6;
+}
+
+.td-ico {
+  width: 16px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.td-sep {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 4px 0;
+}
+
+/* ── Responsive device buttons (right side of tab bar) ── */
+.tab-device-group {
+  margin-left: auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+}
+
+.device-tab {
+  font-size: 11px;
+  padding: 5px 9px;
+  color: #666;
+}
+
+.device-tab.active {
+  background: #ffffff;
+  border-color: #ababab;
+  border-bottom-color: #ffffff;
+  color: #0078d4;
+  font-weight: 600;
+}

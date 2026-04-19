@@ -1,0 +1,129 @@
+/* ─────────────────────────────────────────────
+   Floating Text Format Toolbar
+   Appears above selected text in the iframe.
+   ───────────────────────────────────────────── */
+
+#formatToolbar {
+  position: fixed;
+  z-index: 200000;
+  display: none;
+  align-items: center;
+  gap: 1px;
+  background: #1e1e2e;
+  border: 1px solid #45475a;
+  border-radius: 6px;
+  padding: 3px 5px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  pointer-events: auto;
+  user-select: none;
+}
+
+#formatToolbar.visible {
+  display: flex;
+}
+
+/* Arrow pointer at bottom-center */
+#formatToolbar::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 5px 0;
+  border-style: solid;
+  border-color: #45475a transparent transparent;
+}
+
+#formatToolbar::before {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px 4px 0;
+  border-style: solid;
+  border-color: #1e1e2e transparent transparent;
+  z-index: 1;
+}
+
+/* ── Toolbar buttons ── */
+
+.fmt-btn {
+  background: none;
+  border: none;
+  color: #cdd6f4;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  line-height: 1.4;
+  transition: background 0.1s, color 0.1s;
+  min-width: 26px;
+  text-align: center;
+}
+
+.fmt-btn:hover  { background: #313244; color: #ffffff; }
+.fmt-btn.active { background: #45475a; color: #89b4fa; }
+
+.fmt-btn.bold          { font-weight: 700; }
+.fmt-btn.italic        { font-style: italic; }
+.fmt-btn.underline     { text-decoration: underline; }
+.fmt-btn.strikethrough { text-decoration: line-through; }
+
+/* ── Separator ── */
+
+.fmt-sep {
+  width: 1px;
+  height: 16px;
+  background: #45475a;
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+
+/* ── Color swatch button ── */
+
+.fmt-color-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.fmt-color-wrap:hover { background: #313244; }
+
+.fmt-color-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #cdd6f4;
+  pointer-events: none;
+  line-height: 1;
+}
+
+#fmtColorInput {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 0;
+}
+
+/* Colored underline showing current color */
+.fmt-color-bar {
+  position: absolute;
+  bottom: 3px;
+  left: 4px;
+  right: 4px;
+  height: 3px;
+  border-radius: 2px;
+  background: #ff0000;
+  pointer-events: none;
+}
