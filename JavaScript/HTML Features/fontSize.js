@@ -18,6 +18,9 @@ export function saveIframeToTextarea() {
     element.classList.remove("selected-text");
   });
 
+  // Strip injected <script> tags so JS doesn't bleed into the HTML source
+  bodyClone.querySelectorAll("script").forEach(s => s.remove());
+
   preserveImagePlaceholders(bodyClone);
   elements.htmlInput.value = bodyClone.innerHTML.trim();
   scheduleSnapshot();

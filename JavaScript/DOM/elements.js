@@ -33,8 +33,16 @@ export const elements = {
   jsInsertFunctionBtn:  $("jsInsertFunctionBtn"),
   jsInsertArrowBtn:     $("jsInsertArrowBtn"),
   jsInsertLogBtn:       $("jsInsertLogBtn"),
+  jsInsertTimeoutBtn:   $("jsInsertTimeoutBtn"),
+  jsInsertIntervalBtn:  $("jsInsertIntervalBtn"),
   jsInsertQueryBtn:     $("jsInsertQueryBtn"),
   jsInsertEventBtn:     $("jsInsertEventBtn"),
+  jsInsertClickBtn:     $("jsInsertClickBtn"),
+  jsInsertClassToggle:  $("jsInsertClassToggle"),
+  jsInsertFetchBtn:     $("jsInsertFetchBtn"),
+  jsBindClickBtn:       $("jsBindClickBtn"),
+  jsBindInputBtn:       $("jsBindInputBtn"),
+  jsConsoleToggleBtn:   $("jsConsoleToggleBtn"),
   addHeadingBtn: $("addHeadingBtn"),
   // Heading dropdown elements
   headingDropdownBtn: $("headingDropdownBtn"),
@@ -183,4 +191,12 @@ export const elements = {
   devicePhoneBtn:   $("devicePhoneBtn"),
   deviceTabletBtn:  $("deviceTabletBtn"),
   deviceDesktopBtn: $("deviceDesktopBtn"),
+
+  // ── JS Library + Selector Picker ──
+  jsLibraryBtn:        $("jsLibraryBtn"),
+  jsPickSelectorBtn:   $("jsPickSelectorBtn"),
+  selectorPickerDropdown: $("selectorPickerDropdown"),
+
+  // ── Template Gallery ──
+  templateGalleryBtn: $("templateGalleryBtn"),
 };

@@ -1,0 +1,139 @@
+/* ─────────────────────────────────────────────
+   JS Console panel
+   Collapsible drawer at the bottom of the
+   preview area — toggled by the JS ribbon.
+   ───────────────────────────────────────────── */
+
+#jsConsolePanel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 220px;
+  background: #1e1e2e;
+  border-top: 2px solid #3a3a5a;
+  display: none;
+  flex-direction: column;
+  z-index: 20;
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+
+#jsConsolePanel.open { display: flex; }
+
+/* ── Header bar ── */
+
+.jsc-header {
+  display: flex;
+  align-items: center;
+  padding: 4px 10px;
+  background: #13131f;
+  border-bottom: 1px solid #2a2a42;
+  gap: 6px;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.jsc-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  flex: 1;
+}
+
+.jsc-clear-btn,
+.jsc-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 11px;
+  color: #666;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  transition: color 0.1s, background 0.1s;
+}
+
+.jsc-clear-btn:hover { color: #aaa; background: rgba(255, 255, 255, 0.07); }
+.jsc-close-btn:hover { color: #f38ba8; background: rgba(255, 255, 255, 0.07); }
+
+/* ── Output area ── */
+
+#jsConsoleOutput {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a5a transparent;
+}
+
+#jsConsoleOutput::-webkit-scrollbar       { width: 6px; }
+#jsConsoleOutput::-webkit-scrollbar-track { background: transparent; }
+#jsConsoleOutput::-webkit-scrollbar-thumb { background: #3a3a5a; border-radius: 3px; }
+
+#jsConsoleOutput:empty::before {
+  content: "No output yet — use console.log() in your JS.";
+  display: block;
+  padding: 14px 14px;
+  font-size: 11px;
+  color: #44475a;
+  font-style: italic;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* ── Log entries ── */
+
+.jsc-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 3px 14px;
+  font-size: 12px;
+  line-height: 1.65;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.jsc-entry:last-child { border-bottom: none; }
+
+.jsc-log   { color: #cdd6f4; }
+.jsc-info  { color: #89b4fa; }
+.jsc-warn  { color: #f9e2af; background: rgba(249, 226, 175, 0.05); }
+.jsc-error { color: #f38ba8; background: rgba(243, 139, 168, 0.07); }
+
+.jsc-icon {
+  flex-shrink: 0;
+  font-size: 10px;
+  margin-top: 3px;
+  min-width: 12px;
+  color: inherit;
+  opacity: 0.7;
+}
+
+.jsc-msg {
+  white-space: pre-wrap;
+  word-break: break-word;
+  flex: 1;
+}
+
+/* ── Re-render divider ── */
+
+.jsc-divider {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 14px;
+  font-size: 9px;
+  color: #44475a;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.jsc-divider::before,
+.jsc-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #2a2a42;
+}

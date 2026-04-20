@@ -131,17 +131,16 @@ function _findElementLine(el) {
 }
 
 function _goToSource() {
+  const target = _ctxTarget;  // snapshot before _closeCtxMenu nulls it
   _closeCtxMenu();
-  if (!_ctxTarget) return;
+  if (!target) return;
 
-  const lineNum = _findElementLine(_ctxTarget);
+  const lineNum = _findElementLine(target);
 
-  // Switch to Source Code view, HTML file
   showSourceView();
   switchToFile("html");
   showEditor("html");
 
-  // Give the editor a tick to become visible, then jump
   setTimeout(() => goToLineInHtml(lineNum), 60);
 }
 

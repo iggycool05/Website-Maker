@@ -1,0 +1,271 @@
+/* ══════════════════════════════════════════════════════════
+   JS Template Library Modal
+   ══════════════════════════════════════════════════════════ */
+
+.js-lib-box {
+  width: 700px;
+  max-height: 84vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.js-lib-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 10px;
+  border-bottom: 1px solid #ebebeb;
+  flex-shrink: 0;
+}
+
+.js-lib-header-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.js-lib-close {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+  padding: 2px 5px;
+  border-radius: 3px;
+  line-height: 1;
+  transition: background 0.1s, color 0.1s;
+}
+
+.js-lib-close:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+/* ── Category tabs ── */
+.jl-cat-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 10px 16px 0;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.jl-cat-tab {
+  padding: 6px 14px;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  background: none;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  color: #666;
+  transition: background 0.1s, color 0.1s;
+  position: relative;
+  bottom: -1px;
+}
+
+.jl-cat-tab:hover {
+  background: #f3f4f6;
+  color: #333;
+}
+
+.jl-cat-tab.active {
+  background: #fff;
+  border-color: #e5e7eb;
+  border-bottom-color: #fff;
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+/* ── Template list ── */
+.jl-list-wrap {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 transparent;
+}
+
+.jl-list-wrap::-webkit-scrollbar       { width: 8px; }
+.jl-list-wrap::-webkit-scrollbar-track { background: transparent; }
+.jl-list-wrap::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+
+.jl-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Individual template row ── */
+.jl-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  user-select: none;
+}
+
+.jl-card:hover {
+  border-color: #f59e0b;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.12);
+  background: #fffdf5;
+}
+
+.jl-card:active {
+  background: #fff8e7;
+}
+
+.jl-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  color: #92400e;
+}
+
+.jl-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.jl-card-name {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 2px;
+}
+
+.jl-card-desc {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 11px;
+  color: #6b7280;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jl-card-cat {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.jl-insert-btn {
+  padding: 5px 12px;
+  background: #f59e0b;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.jl-insert-btn:hover {
+  background: #d97706;
+}
+
+/* ── Selector picker dropdown ── */
+#selectorPickerDropdown {
+  position: fixed;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  z-index: 1200;
+  min-width: 200px;
+  max-width: 280px;
+  max-height: 240px;
+  overflow-y: auto;
+  display: none;
+  flex-direction: column;
+  padding: 4px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 transparent;
+}
+
+#selectorPickerDropdown.open {
+  display: flex;
+}
+
+.sp-section-label {
+  padding: 6px 12px 2px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9ca3af;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.sp-item {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: #1f2937;
+  cursor: pointer;
+  transition: background 0.1s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sp-item:hover {
+  background: #f3f4f6;
+  color: #0078d4;
+}
+
+.sp-empty {
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #9ca3af;
+  font-family: 'Segoe UI', sans-serif;
+  font-style: italic;
+}
+
+/* ── File explorer load buttons ── */
+.fe-load-btn {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 1px 4px;
+  border-radius: 3px;
+  line-height: 1;
+  transition: color 0.1s, background 0.1s;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.fe-load-btn:hover {
+  color: #0078d4;
+  background: rgba(0, 120, 212, 0.08);
+}
+
+.fe-file {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

@@ -1,0 +1,191 @@
+/* ══════════════════════════════════════════════════════════
+   Template Gallery Modal
+   ══════════════════════════════════════════════════════════ */
+
+#templateGalleryModal .modal-box {
+  width: 820px;
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+/* ── Header ── */
+.tg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px 10px;
+  border-bottom: 1px solid #ebebeb;
+  flex-shrink: 0;
+}
+
+.tg-header-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.tg-header-sub {
+  font-size: 11px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.tg-close {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+  padding: 2px 5px;
+  border-radius: 3px;
+  transition: background 0.1s, color 0.1s;
+}
+
+.tg-close:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+/* ── Category tabs ── */
+.tg-cat-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 10px 16px 0;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.tg-cat-tab {
+  padding: 6px 14px;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  background: none;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  color: #666;
+  transition: background 0.1s, color 0.1s;
+  position: relative;
+  bottom: -1px;
+}
+
+.tg-cat-tab:hover {
+  background: #f3f4f6;
+  color: #333;
+}
+
+.tg-cat-tab.active {
+  background: #fff;
+  border-color: #e5e7eb;
+  border-bottom-color: #fff;
+  color: #0078d4;
+  font-weight: 600;
+}
+
+/* ── Grid ── */
+.tg-grid-wrap {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px;
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 transparent;
+}
+
+.tg-grid-wrap::-webkit-scrollbar       { width: 8px; }
+.tg-grid-wrap::-webkit-scrollbar-track { background: transparent; }
+.tg-grid-wrap::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+
+#tgGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px;
+}
+
+/* ── Individual card ── */
+.tg-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  user-select: none;
+}
+
+.tg-card:hover {
+  border-color: #0078d4;
+  box-shadow: 0 6px 18px rgba(0, 120, 212, 0.14);
+  transform: translateY(-2px);
+}
+
+.tg-card:active {
+  transform: translateY(0);
+}
+
+/* Preview thumbnail — colour is set inline via template.preview */
+.tg-card-preview {
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+}
+
+/* Info section */
+.tg-card-info {
+  padding: 12px 14px 14px;
+}
+
+.tg-card-name {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.tg-card-desc {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 11px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  min-height: 32px;
+}
+
+.tg-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tg-cat-badge {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 10px;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 3px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tg-use-btn {
+  background: #0078d4;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 5px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.tg-use-btn:hover {
+  background: #005fa3;
+}

@@ -3,6 +3,32 @@ import { getUploadedImage } from "../Utils/imageStore.js";
 import { toCssString } from "../CSS Features/cssStore.js";
 import { getRawJs } from "../JS Features/jsStore.js";
 
+// Interceptor injected into every iframe srcdoc.
+// Overrides console.* and window.onerror to forward messages to the parent
+// via postMessage so jsConsole.js can display them in the console panel.
+const _CONSOLE_INTERCEPTOR = (() => {
+  const body = `(function(){
+  var c=window.console,ov=function(l,o){
+    c[l]=function(){
+      var a=[].slice.call(arguments).map(function(v){
+        if(v===null)return'null';
+        if(v===undefined)return'undefined';
+        if(typeof v==='object'){try{return JSON.stringify(v,null,2)}catch(e){return String(v)}}
+        return String(v);
+      });
+      try{window.parent.postMessage({__from:'ob-console',level:l,args:a},'*')}catch(e){}
+      o.apply(c,arguments);
+    };
+  };
+  ov('log',c.log.bind(c));ov('warn',c.warn.bind(c));
+  ov('error',c.error.bind(c));ov('info',c.info.bind(c));
+  window.onerror=function(m,s,l){
+    try{window.parent.postMessage({__from:'ob-console',level:'error',args:[m+' (line '+l+')']}, '*')}catch(e){}
+  };
+})();`;
+  return `<script>${body}<` + `/script>`;
+})();
+
 function resolveImagePlaceholders(html) {
   return html.replace(/<img\b([^>]*?)\sdata-upload-id="([^"]+)"([^>]*?)>/gi, (match, before, id, after) => {
     const src = getUploadedImage(id);
@@ -23,6 +49,7 @@ export function renderPreview() {
     <head>
       <meta charset="UTF-8">
       <title>Preview</title>
+      ${_CONSOLE_INTERCEPTOR}
       <style>
         body {
           font-family: Arial, sans-serif;

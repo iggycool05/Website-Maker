@@ -19,9 +19,10 @@ import { getRawJs, setRawJs }   from "../JS Features/jsStore.js";
 import { showEditor }           from "./codeEditor.js";
 import {
   getCurrentPage, getAllPages,
-  addPage, removePage, switchPage, onPageChange,
+  addPage, removePage, switchPage, onPageChange, setPageHtml,
 } from "../Features/pageStore.js";
 import { renderPreview } from "../Preview/renderPreview.js";
+import { scheduleAutosave } from "../Features/projectStorage.js";
 
 let currentFile = "html"; // "html" | "css" | "js"
 
@@ -34,11 +35,33 @@ export function setProjectName(name) {
 }
 
 export function initFileExplorer() {
-  elements.feCssFile.addEventListener("click", () => switchToFile("css"));
-  elements.feJsFile.addEventListener("click",  () => switchToFile("js"));
+  elements.feCssFile.addEventListener("click", e => {
+    if (e.target.classList.contains("fe-load-btn")) return;
+    switchToFile("css");
+  });
+  elements.feJsFile.addEventListener("click", e => {
+    if (e.target.classList.contains("fe-load-btn")) return;
+    switchToFile("js");
+  });
+
+  // Load-from-disk buttons for CSS and JS
+  document.getElementById("feLoadCssBtn")?.addEventListener("click", e => {
+    e.stopPropagation();
+    _pickAndLoad("css");
+  });
+  document.getElementById("feLoadJsBtn")?.addEventListener("click", e => {
+    e.stopPropagation();
+    _pickAndLoad("js");
+  });
 
   // Add-page button
   document.getElementById("feAddPageBtn")?.addEventListener("click", _handleAddPage);
+
+  // Import HTML page from file
+  document.getElementById("feImportPageBtn")?.addEventListener("click", e => {
+    e.stopPropagation();
+    _pickAndLoad("html");
+  });
 
   // Re-render page list whenever the active page changes
   onPageChange(() => renderPageList());
@@ -137,4 +160,53 @@ function _handleAddPage() {
     return;
   }
   renderPageList();
+}
+
+// ── Load a file from disk into the editor ─────────────────────────────────────
+
+function _pickAndLoad(type) {
+  const accept = type === "html" ? ".html,.htm" : type === "css" ? ".css" : ".js";
+  const input  = document.createElement("input");
+  input.type   = "file";
+  input.accept = accept;
+
+  input.addEventListener("change", () => {
+    const file = input.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const text = typeof reader.result === "string" ? reader.result : "";
+      if (type === "css") {
+        setRawCss(text);
+        elements.cssInput.value = text;
+        switchToFile("css");
+      } else if (type === "js") {
+        setRawJs(text);
+        elements.jsInput.value = text;
+        switchToFile("js");
+      } else {
+        // Import as a new HTML page named after the file
+        let filename = file.name.toLowerCase().replace(/[^a-z0-9._-]/g, "-");
+        if (!filename.endsWith(".html")) filename += ".html";
+        // If the page name already exists, switch to it and overwrite
+        addPage(filename);
+        setPageHtml(filename, text);
+        // Switch to it
+        if (currentFile !== "html") {
+          if (currentFile === "css") setRawCss(elements.cssInput.value);
+          if (currentFile === "js")  setRawJs(elements.jsInput.value);
+          currentFile = "html";
+          showEditor("html");
+        }
+        switchPage(filename);
+        renderPageList();
+      }
+      renderPreview();
+      scheduleAutosave();
+    };
+    reader.readAsText(file);
+  });
+
+  input.click();
 }

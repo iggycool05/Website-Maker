@@ -16,7 +16,10 @@
   <link rel="stylesheet" href="./CSS/propertiesPanel.css">
   <link rel="stylesheet" href="./CSS/formatToolbar.css">
   <link rel="stylesheet" href="./CSS/componentLibrary.css">
+  <link rel="stylesheet" href="./CSS/templateGallery.css">
   <link rel="stylesheet" href="./CSS Features/animationBuilder.css">
+  <link rel="stylesheet" href="./CSS/jsConsole.css">
+  <link rel="stylesheet" href="./CSS/jsLibrary.css">
 </head>
 <body style="background-color: white;">
   <!-- Entire app -->
@@ -357,6 +360,14 @@
         <span class="ico sm">&#9741;</span>
         <span class="lbl">Components</span>
       </button>
+      <button id="templateGalleryBtn" class="rbtn large" data-tip
+          data-tip-title="Template Gallery"
+          data-tip-p1="Start from a full-page template — landing pages, portfolios, blogs, and more."
+          data-tip-p2="Replaces the current page. All elements are draggable and editable.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9707;</span>
+        <span class="lbl">Templates</span>
+      </button>
     </div>
     <div class="group-label">Library</div>
   </div>
@@ -365,70 +376,176 @@
 <!-- JS Editor Ribbon -->
 <section id="jsEditorRibbon" class="ribbon-panel hidden">
 
+  <!-- Snippets group -->
   <div class="group">
     <div class="group-body">
-
       <button id="jsInsertFunctionBtn" class="rbtn"
-          data-tip
-          data-tip-title="Insert Function"
+          data-tip data-tip-title="Insert Function"
           data-tip-p1="Appends a named function template to script.js."
           data-tip-p2="A reusable block of code you can call by name.">
         <span class="tip-progress"></span>
         <span class="ico sm">&#402;</span>
         <span class="lbl">Function</span>
       </button>
-
       <button id="jsInsertArrowBtn" class="rbtn"
-          data-tip
-          data-tip-title="Insert Arrow Function"
+          data-tip data-tip-title="Insert Arrow Function"
           data-tip-p1="Appends a const arrow function to script.js."
-          data-tip-p2="A concise modern function syntax: const fn = () => {}.">
+          data-tip-p2="Concise modern syntax: const fn = () => {}.">
         <span class="tip-progress"></span>
         <span class="ico sm">&#8658;</span>
         <span class="lbl">Arrow Fn</span>
       </button>
-
       <button id="jsInsertLogBtn" class="rbtn"
-          data-tip
-          data-tip-title="Insert console.log"
+          data-tip data-tip-title="Insert console.log"
           data-tip-p1="Appends a console.log() call to script.js."
-          data-tip-p2="Output appears in the browser DevTools console.">
+          data-tip-p2="Output appears in the Live Console panel below the preview.">
         <span class="tip-progress"></span>
         <span class="ico sm">log</span>
-        <span class="lbl">Console</span>
+        <span class="lbl">Log</span>
       </button>
-
+      <button id="jsInsertTimeoutBtn" class="rbtn"
+          data-tip data-tip-title="Insert setTimeout"
+          data-tip-p1="Appends a setTimeout() call to script.js."
+          data-tip-p2="Runs code once after a delay (default 1 second).">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9201;</span>
+        <span class="lbl">Timeout</span>
+      </button>
+      <button id="jsInsertIntervalBtn" class="rbtn"
+          data-tip data-tip-title="Insert setInterval"
+          data-tip-p1="Appends a setInterval() call to script.js."
+          data-tip-p2="Runs code on a repeating timer. Save the return value to clear it later.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9654;&#9654;</span>
+        <span class="lbl">Interval</span>
+      </button>
     </div>
     <div class="group-label">Snippets</div>
   </div>
 
   <div class="group-sep"></div>
 
+  <!-- DOM group -->
   <div class="group">
     <div class="group-body">
-
       <button id="jsInsertQueryBtn" class="rbtn"
-          data-tip
-          data-tip-title="Insert querySelector"
+          data-tip data-tip-title="Insert querySelector"
           data-tip-p1="Appends a document.querySelector() call to script.js."
           data-tip-p2="Selects an element by CSS selector (ID, class, tag).">
         <span class="tip-progress"></span>
         <span class="ico sm">#</span>
         <span class="lbl">Select</span>
       </button>
-
       <button id="jsInsertEventBtn" class="rbtn"
-          data-tip
-          data-tip-title="Insert Event Listener"
+          data-tip data-tip-title="Insert DOMContentLoaded"
           data-tip-p1="Appends a DOMContentLoaded listener to script.js."
           data-tip-p2="Wraps your code to run after the page fully loads.">
         <span class="tip-progress"></span>
         <span class="ico sm">&#9889;</span>
-        <span class="lbl">Event</span>
+        <span class="lbl">On Load</span>
       </button>
-
+      <button id="jsInsertClickBtn" class="rbtn"
+          data-tip data-tip-title="Insert Click Listener"
+          data-tip-p1="Appends a click event listener template to script.js."
+          data-tip-p2="Edit the selector to target the element you want.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#8627;</span>
+        <span class="lbl">Click</span>
+      </button>
+      <button id="jsInsertClassToggle" class="rbtn"
+          data-tip data-tip-title="Insert classList.toggle"
+          data-tip-p1="Appends a classList.toggle() snippet to script.js."
+          data-tip-p2="Adds or removes a CSS class on an element.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">.cls</span>
+        <span class="lbl">Toggle</span>
+      </button>
+      <button id="jsInsertFetchBtn" class="rbtn"
+          data-tip data-tip-title="Insert fetch()"
+          data-tip-p1="Appends a fetch() API call template to script.js."
+          data-tip-p2="Fetches JSON from a URL and logs the result.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#8646;</span>
+        <span class="lbl">Fetch</span>
+      </button>
     </div>
     <div class="group-label">DOM</div>
+  </div>
+
+  <div class="group-sep"></div>
+
+  <!-- Bind group — wires the currently selected preview element -->
+  <div class="group">
+    <div class="group-body">
+      <button id="jsBindClickBtn" class="rbtn large"
+          data-tip data-tip-title="Bind Click to Selection"
+          data-tip-p1="Inserts a click listener targeting the element currently selected in the preview."
+          data-tip-p2="Select an element first, then click this button.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9654;</span>
+        <span class="lbl">Bind Click</span>
+      </button>
+      <button id="jsBindInputBtn" class="rbtn large"
+          data-tip data-tip-title="Bind Input to Selection"
+          data-tip-p1="Inserts an input listener targeting the element currently selected in the preview."
+          data-tip-p2="Select an input element first, then click this button.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9000;</span>
+        <span class="lbl">Bind Input</span>
+      </button>
+    </div>
+    <div class="group-label">Bind</div>
+  </div>
+
+  <div class="group-sep"></div>
+
+  <!-- Console toggle -->
+  <div class="group">
+    <div class="group-body">
+      <button id="jsConsoleToggleBtn" class="rbtn large"
+          data-tip data-tip-title="Toggle Live Console"
+          data-tip-p1="Show or hide the live JS console panel below the preview."
+          data-tip-p2="console.log(), console.warn(), console.error() output appears here. Errors auto-open the panel.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#62;_</span>
+        <span class="lbl">Console</span>
+      </button>
+    </div>
+    <div class="group-label">Live</div>
+  </div>
+
+  <div class="group-sep"></div>
+
+  <!-- Selector picker -->
+  <div class="group">
+    <div class="group-body">
+      <button id="jsPickSelectorBtn" class="rbtn large"
+          data-tip data-tip-title="Pick Selector"
+          data-tip-p1="Browse IDs and classes from the current HTML and insert a querySelector() call."
+          data-tip-p2="Useful for quickly targeting elements without typing selectors manually.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">#.</span>
+        <span class="lbl">Pick Selector</span>
+      </button>
+    </div>
+    <div class="group-label">DOM</div>
+  </div>
+
+  <div class="group-sep"></div>
+
+  <!-- JS Library -->
+  <div class="group">
+    <div class="group-body">
+      <button id="jsLibraryBtn" class="rbtn large"
+          data-tip data-tip-title="JS Template Library"
+          data-tip-p1="Open a library of 15 ready-to-use JavaScript templates."
+          data-tip-p2="Includes dark mode toggle, modals, forms, timers, navigation helpers, and more.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#128218;</span>
+        <span class="lbl">JS Library</span>
+      </button>
+    </div>
+    <div class="group-label">Templates</div>
   </div>
 
 </section>
@@ -493,15 +610,18 @@
           <!-- Shared files section (CSS + JS) -->
           <div class="fe-section-header">
             <span class="fe-section-name">&#9656; Files</span>
+            <button id="feImportPageBtn" class="fe-add-btn" title="Import HTML file as new page">&#8593;</button>
           </div>
           <div class="fe-file-list">
             <div id="feCssFile" class="fe-file">
               <span class="fe-icon fe-css">C</span>
               <span class="fe-file-name">styles.css</span>
+              <button id="feLoadCssBtn" class="fe-load-btn" title="Load .css file from disk">&#8593;</button>
             </div>
             <div id="feJsFile" class="fe-file">
               <span class="fe-icon fe-js">J</span>
               <span class="fe-file-name">script.js</span>
+              <button id="feLoadJsBtn" class="fe-load-btn" title="Load .js file from disk">&#8593;</button>
             </div>
           </div>
         </div>
@@ -544,6 +664,15 @@
         </div>
 
         <iframe id="previewFrame"></iframe>
+        <!-- Live JS console panel (bottom drawer) -->
+        <div id="jsConsolePanel">
+          <div class="jsc-header">
+            <span class="jsc-title">&#62;_ Console</span>
+            <button class="jsc-clear-btn" id="jsConsoleClearBtn">Clear</button>
+            <button class="jsc-close-btn" id="jsConsoleCloseBtn">&#x2715;</button>
+          </div>
+          <div id="jsConsoleOutput"></div>
+        </div>
         <!-- DOM Inspector panel (right side, toggled by Inspector tab button) -->
         <div id="inspectorPanel">
           <div class="insp-header">
@@ -929,6 +1058,51 @@
       <div class="modal-footer">
         <button id="newProjectCancel"  class="modal-btn">Cancel</button>
         <button id="newProjectConfirm" class="modal-btn primary">Choose Location &rsaquo;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Selector picker dropdown (fixed, outside any overflow container) ── -->
+  <div id="selectorPickerDropdown"></div>
+
+  <!-- ── JS Template Library modal ── -->
+  <div id="jsLibraryModal" class="modal-overlay">
+    <div class="modal-box js-lib-box">
+      <div class="js-lib-header">
+        <span class="js-lib-header-title">&#128218; JS Template Library</span>
+        <button id="jsLibCloseBtn" class="js-lib-close">&#x2715;</button>
+      </div>
+      <div class="jl-cat-tabs">
+        <button class="jl-cat-tab active" data-cat="All">All</button>
+        <button class="jl-cat-tab" data-cat="UI">UI</button>
+        <button class="jl-cat-tab" data-cat="Forms">Forms</button>
+        <button class="jl-cat-tab" data-cat="Navigation">Navigation</button>
+        <button class="jl-cat-tab" data-cat="Utilities">Utilities</button>
+      </div>
+      <div class="jl-list-wrap">
+        <div class="jl-list" id="jsLibList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Template Gallery modal ── -->
+<div id="templateGalleryModal" class="modal-overlay">    <div class="modal-box" style="width:820px;max-height:86vh;display:flex;flex-direction:column;padding:0;">
+      <div class="tg-header">
+        <div>
+          <div class="tg-header-title">Template Gallery</div>
+          <div class="tg-header-sub">Choose a full-page template to get started — all elements are draggable and editable</div>
+        </div>
+        <button id="tgCloseBtn" class="tg-close">&#x2715;</button>
+      </div>
+      <div class="tg-cat-tabs" id="tgCatTabs">
+        <button class="tg-cat-tab active" data-cat="All">All</button>
+        <button class="tg-cat-tab" data-cat="Business">Business</button>
+        <button class="tg-cat-tab" data-cat="Portfolio">Portfolio</button>
+        <button class="tg-cat-tab" data-cat="Blog">Blog</button>
+        <button class="tg-cat-tab" data-cat="Other">Other</button>
+      </div>
+      <div class="tg-grid-wrap">
+        <div id="tgGrid"></div>
       </div>
     </div>
   </div>

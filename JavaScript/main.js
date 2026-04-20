@@ -22,6 +22,7 @@ import { initUndoRedo, undo, redo } from "./Utils/undoRedo.js";
 import { initDomInspector, refreshInspector } from "./HTML Features/domInspector.js";
 import { initListTableBuilder } from "./HTML Features/listTableBuilder.js";
 import { initJsEditor, toggleJsEditorRibbon } from "./JS Features/jsEditor.js";
+import { initJsConsole, markRenderDivider } from "./JS Features/jsConsole.js";
 import { initPropertiesPanel } from "./HTML Features/propertiesPanel.js";
 import { initFormatToolbar } from "./HTML Features/formatToolbar.js";
 import { initAlignTools } from "./HTML Features/alignTools.js";
@@ -33,12 +34,15 @@ import { initProjectStorage, scheduleAutosave } from "./Features/projectStorage.
 import { initCodeEditors } from "./HTML Features/codeEditor.js";
 import { initComponentLibrary } from "./HTML Features/componentLibrary.js";
 import { initAnimationBuilder } from "./CSS Features/animationBuilder.js";
+import { initJsLibrary } from "./JS Features/jsLibrary.js";
+import { initTemplateGallery } from "./HTML Features/templateGallery.js";
 
 // ── Re-init the iframe each time it reloads ───────────────────────────────────
 elements.previewFrame.addEventListener("load", function () {
   setupIframe();
   refreshIdPanel();
   refreshInspector();
+  markRenderDivider();
 });
 
 // ── Keyboard shortcuts ────────────────────────────────────────────────────────
@@ -220,6 +224,7 @@ initFileExplorer();
 initListTableBuilder();
 initExport();
 initJsEditor();
+initJsConsole();
 initDomInspector();
 initPropertiesPanel();
 initFormatToolbar();
@@ -230,6 +235,8 @@ initUndoRedo();           // last: seeds initial undo snapshot after everything 
 initProjectStorage();     // restore last session + wire Save/Load buttons
 initComponentLibrary();
 initAnimationBuilder();
+initJsLibrary();
+initTemplateGallery();
 
 // Autosave when CSS or JS content changes in the editor
 elements.cssInput.addEventListener("input", scheduleAutosave);
