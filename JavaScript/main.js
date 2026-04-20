@@ -18,7 +18,7 @@ import { initCssEditor, toggleCssEditorRibbon } from "./CSS Features/cssEditor.j
 import { initClassBuilder } from "./CSS Features/classBuilder.js";
 import { initFileExplorer } from "./HTML Features/fileExplorer.js";
 import { initExport } from "./Features/export.js";
-import { initUndoRedo, undo, redo } from "./Utils/undoRedo.js";
+import { initUndoRedo, undo, redo, setHistoryChangeCallback } from "./Utils/undoRedo.js";
 import { initDomInspector, refreshInspector } from "./HTML Features/domInspector.js";
 import { initListTableBuilder } from "./HTML Features/listTableBuilder.js";
 import { initJsEditor, toggleJsEditorRibbon } from "./JS Features/jsEditor.js";
@@ -100,6 +100,34 @@ elements.fontFamilySelect.addEventListener("change", function () {
   changeSelectedFontFamily(elements.fontFamilySelect.value);
 });
 
+// ── HTML ribbon scroll navigation (defined early; used by tab click handler) ─
+const RIBBON_SCROLL_AMOUNT = 220;
+
+function updateRibbonNavBtns() {
+  const ribbon = elements.htmlEditorRibbon;
+  if (ribbon.classList.contains("hidden")) {
+    elements.htmlRibbonPrev.classList.add("hidden");
+    elements.htmlRibbonNext.classList.add("hidden");
+    return;
+  }
+  const atStart = ribbon.scrollLeft <= 0;
+  const atEnd   = ribbon.scrollLeft >= ribbon.scrollWidth - ribbon.clientWidth - 1;
+  elements.htmlRibbonPrev.classList.toggle("hidden", atStart);
+  elements.htmlRibbonNext.classList.toggle("hidden", atEnd);
+}
+
+elements.htmlRibbonPrev.addEventListener("click", () => {
+  elements.htmlEditorRibbon.scrollLeft -= RIBBON_SCROLL_AMOUNT;
+  updateRibbonNavBtns();
+});
+
+elements.htmlRibbonNext.addEventListener("click", () => {
+  elements.htmlEditorRibbon.scrollLeft += RIBBON_SCROLL_AMOUNT;
+  updateRibbonNavBtns();
+});
+
+elements.htmlEditorRibbon.addEventListener("scroll", updateRibbonNavBtns);
+
 // ── Tab bar ───────────────────────────────────────────────────────────────────
 
 // Source Code → show the code editor
@@ -118,6 +146,7 @@ elements.htmlEditorTabBtn.addEventListener("click", function () {
     elements.jsEditorTabBtn.classList.remove("active");
   }
   htmlToolbar.toggleHtmlEditorRibbon();
+  updateRibbonNavBtns();
 });
 
 // CSS Editor → switch to preview (if needed) then toggle the ribbon
@@ -208,6 +237,15 @@ elements.addImageInput.addEventListener("change", function (event) {
 elements.gridToggleBtn.addEventListener("click", function () {
   const on = toggleGrid();
   elements.gridToggleBtn.classList.toggle("active", on);
+});
+
+// ── Undo / Redo buttons ───────────────────────────────────────────────────────
+elements.undoBtn.addEventListener("click", undo);
+elements.redoBtn.addEventListener("click", redo);
+
+setHistoryChangeCallback((canUndo, canRedo) => {
+  elements.undoBtn.classList.toggle("disabled", !canUndo);
+  elements.redoBtn.classList.toggle("disabled", !canRedo);
 });
 
 // ── Bootstrap ─────────────────────────────────────────────────────────────────

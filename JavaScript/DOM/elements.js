@@ -181,6 +181,14 @@ export const elements = {
   // ── Grid toggle ──
   gridToggleBtn: $("gridToggleBtn"),
 
+  // ── Undo / Redo buttons ──
+  undoBtn: $("undoBtn"),
+  redoBtn: $("redoBtn"),
+
+  // ── HTML ribbon scroll arrows ──
+  htmlRibbonPrev: $("htmlRibbonPrev"),
+  htmlRibbonNext: $("htmlRibbonNext"),
+
   // ── Context menu copy / paste / duplicate / delete ──
   ctxCopyBtn:      $("ctxCopyBtn"),
   ctxPasteBtn:     $("ctxPasteBtn"),

@@ -56,7 +56,31 @@
 </div>
 
 <!-- HTML Editor Ribbon -->
-<section id="htmlEditorRibbon" class="ribbon-panel hidden">
+<div id="htmlRibbonWrap" class="ribbon-wrap">
+  <button class="ribbon-nav-btn ribbon-nav-prev hidden" id="htmlRibbonPrev" title="Scroll left">&#8249;</button>
+  <section id="htmlEditorRibbon" class="ribbon-panel hidden">
+
+  <div class="group">
+    <div class="group-body">
+      <button id="undoBtn" class="rbtn" data-tip
+          data-tip-title="Undo (Ctrl+Z)"
+          data-tip-p1="Undo the last change to HTML, CSS, or JS.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#8617;</span>
+        <span class="lbl">Undo</span>
+      </button>
+      <button id="redoBtn" class="rbtn" data-tip
+          data-tip-title="Redo (Ctrl+Y)"
+          data-tip-p1="Redo the last undone change.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#8618;</span>
+        <span class="lbl">Redo</span>
+      </button>
+    </div>
+    <div class="group-label">History</div>
+  </div>
+
+  <div class="group-sep"></div>
 
   <div class="group">
     <div class="group-body">
@@ -372,6 +396,8 @@
     <div class="group-label">Library</div>
   </div>
 </section>
+  <button class="ribbon-nav-btn ribbon-nav-next hidden" id="htmlRibbonNext" title="Scroll right">&#8250;</button>
+</div>
 
 <!-- JS Editor Ribbon -->
 <section id="jsEditorRibbon" class="ribbon-panel hidden">
@@ -1067,9 +1093,13 @@
 
   <!-- ── JS Template Library modal ── -->
   <div id="jsLibraryModal" class="modal-overlay">
-    <div class="modal-box js-lib-box">
+    <div class="modal-box js-lib-box" id="jsLibBox">
       <div class="js-lib-header">
         <span class="js-lib-header-title">&#128218; JS Template Library</span>
+        <div class="jl-mode-toggle">
+          <button class="jl-mode-btn active" id="jlModeSnippets">Snippets</button>
+          <button class="jl-mode-btn" id="jlModeWire">&#9889; Wire It</button>
+        </div>
         <button id="jsLibCloseBtn" class="js-lib-close">&#x2715;</button>
       </div>
       <div class="jl-cat-tabs">
@@ -1079,8 +1109,46 @@
         <button class="jl-cat-tab" data-cat="Navigation">Navigation</button>
         <button class="jl-cat-tab" data-cat="Utilities">Utilities</button>
       </div>
-      <div class="jl-list-wrap">
-        <div class="jl-list" id="jsLibList"></div>
+      <div class="jl-body">
+        <div class="jl-list-wrap">
+          <div class="jl-list" id="jsLibList"></div>
+        </div>
+        <!-- ── Wire It panel ── -->
+        <div class="jl-wire-panel hidden" id="jlWirePanel">
+          <div class="jl-wire-placeholder" id="jlWirePlaceholder">
+            <div class="jl-wire-placeholder-icon">&#9889;</div>
+            <div class="jl-wire-placeholder-text">Click <strong>Wire</strong> on any template to configure how it activates</div>
+          </div>
+          <div class="jl-wire-config hidden" id="jlWireConfig">
+            <div class="jl-wire-template-info">
+              <div class="jl-wire-template-icon" id="jlWireIcon"></div>
+              <div>
+                <div class="jl-wire-template-name" id="jlWireName"></div>
+                <div class="jl-wire-template-desc" id="jlWireDesc"></div>
+              </div>
+            </div>
+            <div class="jl-wire-field">
+              <label class="jl-wire-label">Trigger Element <span class="jl-wire-hint">CSS selector</span></label>
+              <input id="jlTriggerSel" class="jl-wire-input" type="text" placeholder="#my-button  or  .my-class" list="jlSelectorSuggestions" autocomplete="off" />
+              <datalist id="jlSelectorSuggestions"></datalist>
+            </div>
+            <div class="jl-wire-field">
+              <label class="jl-wire-label">Event Type</label>
+              <select id="jlEventType" class="jl-wire-select"></select>
+            </div>
+            <div class="jl-wire-field">
+              <label class="jl-wire-label">HTML Elements <span class="jl-wire-hint">added to your page</span></label>
+              <pre class="jl-wire-code jl-wire-html-preview" id="jlWireHtmlPreview"></pre>
+            </div>
+            <div class="jl-wire-field">
+              <label class="jl-wire-label">JS Code <span class="jl-wire-hint">live preview</span></label>
+              <pre class="jl-wire-code" id="jlWireCodePreview"></pre>
+            </div>
+            <div class="jl-wire-actions">
+              <button id="jlWireInsertBtn" class="jl-insert-btn">&#10003; Insert HTML + Wired JS</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

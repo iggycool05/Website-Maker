@@ -24,6 +24,13 @@ let history       = [];
 let historyIndex  = -1;
 let debounceTimer = null;
 let isRestoring   = false;
+let onHistoryChange = null;
+
+export function setHistoryChangeCallback(fn) { onHistoryChange = fn; }
+
+function notifyChange() {
+  if (onHistoryChange) onHistoryChange(historyIndex > 0, historyIndex < history.length - 1);
+}
 
 // ── Snapshot helpers ──────────────────────────────────────────────────────────
 
@@ -68,8 +75,6 @@ export function scheduleSnapshot() {
 }
 
 export function undo() {
-  // If there is a pending debounce, flush it so the in-progress edit
-  // becomes a proper history entry before we step back.
   if (debounceTimer !== null) {
     clearTimeout(debounceTimer);
     debounceTimer = null;
@@ -78,18 +83,21 @@ export function undo() {
   if (historyIndex <= 0) return;
   historyIndex--;
   applySnapshot(history[historyIndex]);
+  notifyChange();
 }
 
 export function redo() {
   if (historyIndex >= history.length - 1) return;
   historyIndex++;
   applySnapshot(history[historyIndex]);
+  notifyChange();
 }
 
 /** Seed the initial history entry — call once at bootstrap, after first render. */
 export function initUndoRedo() {
   history      = [takeSnapshot()];
   historyIndex = 0;
+  notifyChange();
 }
 
 /** Wipe history and reseed with the current (empty) state. Used by New Project. */
@@ -98,18 +106,18 @@ export function resetHistory() {
   debounceTimer = null;
   history       = [takeSnapshot()];
   historyIndex  = 0;
+  notifyChange();
 }
 
 // ── Internal ──────────────────────────────────────────────────────────────────
 
 function _push(snap) {
-  // Discard any redo entries ahead of the current position
   history = history.slice(0, historyIndex + 1);
   history.push(snap);
   if (history.length > MAX_HISTORY) {
-    // Drop oldest entry; historyIndex already sits at MAX_HISTORY - 1
     history.shift();
   } else {
     historyIndex++;
   }
+  notifyChange();
 }

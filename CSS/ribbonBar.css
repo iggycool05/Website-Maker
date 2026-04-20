@@ -1,3 +1,8 @@
+/* ─── Ribbon Wrap (positions nav arrows relative to ribbon) ─── */
+.ribbon-wrap {
+  position: relative;
+}
+
 /* ─── Ribbon Panel ─── */
 .ribbon-panel {
   background: #ffffff;
@@ -7,10 +12,52 @@
   padding: 4px 6px 0;
   border-bottom: 1px solid #c8c8c8;
   min-height: 90px;
-  overflow-x: auto;
+  overflow-x: scroll;
   overflow-y: visible;
+  scroll-behavior: smooth;
+  scrollbar-width: none;       /* Firefox */
   position: relative;
   z-index: 5;
+}
+
+.ribbon-panel::-webkit-scrollbar {
+  display: none;               /* Chrome / Safari / Edge */
+}
+
+/* ─── Ribbon Navigation Arrows ─── */
+.ribbon-nav-btn {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  color: #555;
+  z-index: 20;
+  transition: color 0.15s;
+  padding: 0 0 14px;           /* lift above group-label baseline */
+}
+
+.ribbon-nav-btn:hover {
+  color: #1a1a1a;
+}
+
+.ribbon-nav-prev {
+  left: 0;
+  background: linear-gradient(to right, rgba(255,255,255,1) 55%, rgba(255,255,255,0));
+}
+
+.ribbon-nav-next {
+  right: 0;
+  background: linear-gradient(to left, rgba(255,255,255,1) 55%, rgba(255,255,255,0));
+}
+
+.ribbon-nav-btn.hidden {
+  display: none;
 }
 
 .ribbon-panel.hidden {
@@ -24,6 +71,7 @@
   align-items: center;
   padding: 2px 6px 0;
   min-width: 60px;
+  flex-shrink: 0;
 }
 
 .group-body {
@@ -46,6 +94,8 @@
 
 .group-sep {
   width: 1px;
+  min-width: 1px;
+  flex-shrink: 0;
   background: #d8d8d8;
   margin: 4px 2px 12px;
   align-self: stretch;
@@ -72,6 +122,12 @@
 .rbtn:hover {
   background: #e5f0fb;
   border-color: #90c3e5;
+}
+
+.rbtn.disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
 }
 
 .rbtn:active,
