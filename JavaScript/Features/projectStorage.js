@@ -15,9 +15,10 @@
 import { elements } from "../DOM/elements.js";
 import { getRawCss, setRawCss } from "../CSS Features/cssStore.js";
 import { getRawJs, setRawJs } from "../JS Features/jsStore.js";
+import { serializeJsFiles, loadJsFiles, clearJsFiles } from "../JS Features/jsFileStore.js";
 import { renderPreview } from "../Preview/renderPreview.js";
 import { resetHistory } from "../Utils/undoRedo.js";
-import { setProjectName, switchToFile, renderPageList } from "../HTML Features/fileExplorer.js";
+import { setProjectName, switchToFile, renderPageList, renderJsFileList } from "../HTML Features/fileExplorer.js";
 import { showPreviewView } from "../HTML Features/sourceEditor.js";
 import { serializePages, loadPages, clearPages } from "./pageStore.js";
 
@@ -66,7 +67,6 @@ export async function openFolder() {
   }
 
   const css = await _readFile(dirHandle, "styles.css");
-  const js  = await _readFile(dirHandle, "script.js");
 
   // Load all pages from pages.json manifest (if it exists), else just index.html
   let pagesData = {};
@@ -84,15 +84,34 @@ export async function openFolder() {
     pagesData["index.html"] = await _readFile(dirHandle, "index.html");
   }
 
+  // Load JS files from js_files.json manifest (if it exists), else just script.js
+  let jsFilesData = {};
+  try {
+    const jsManifest = JSON.parse(await _readFile(dirHandle, "js_files.json"));
+    if (Array.isArray(jsManifest)) {
+      for (const name of jsManifest) {
+        jsFilesData[name] = await _readFile(dirHandle, name);
+      }
+    }
+  } catch {
+    jsFilesData["script.js"] = await _readFile(dirHandle, "script.js");
+  }
+  if (!jsFilesData["script.js"]) {
+    jsFilesData["script.js"] = await _readFile(dirHandle, "script.js");
+  }
+
   loadPages(pagesData);
+  loadJsFiles(jsFilesData);
+  const activeJs = jsFilesData["script.js"] ?? "";
   elements.cssInput.value = css;
-  elements.jsInput.value  = js;
+  elements.jsInput.value  = activeJs;
   setRawCss(css);
-  setRawJs(js);
+  setRawJs(activeJs);
 
   _dirHandle = dirHandle;
   setProjectName(dirHandle.name);
   renderPageList();
+  renderJsFileList();
 
   renderPreview();
   resetHistory();
@@ -117,7 +136,16 @@ export async function saveToFolder() {
     }
 
     await _writeFile(_dirHandle, "styles.css", getRawCss());
-    await _writeFile(_dirHandle, "script.js",  getRawJs());
+
+    // Write each JS file; write a js_files.json manifest when there is more than one
+    const jsSnapshot = serializeJsFiles(getRawJs());
+    for (const [name, content] of Object.entries(jsSnapshot)) {
+      await _writeFile(_dirHandle, name, content);
+    }
+    const jsFileNames = Object.keys(jsSnapshot);
+    if (jsFileNames.length > 1) {
+      await _writeFile(_dirHandle, "js_files.json", JSON.stringify(jsFileNames, null, 2));
+    }
     return true;
   } catch (e) {
     console.error("[projectStorage] saveToFolder:", e);
@@ -143,7 +171,7 @@ export function saveToLocalStorage() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       pages:   serializePages(),
       css:     getRawCss(),
-      js:      getRawJs(),
+      jsFiles: serializeJsFiles(getRawJs()),
       savedAt: new Date().toISOString(),
     }));
     return true;
@@ -163,15 +191,19 @@ export function loadFromLocalStorage() {
     const pagesData = saved.pages
       ?? { "index.html": saved.html ?? "" };
 
+    const savedJsFiles = saved.jsFiles ?? { "script.js": saved.js ?? "" };
     loadPages(pagesData);
+    loadJsFiles(savedJsFiles);
+    const activeJs = savedJsFiles["script.js"] ?? saved.js ?? "";
     elements.cssInput.value = saved.css ?? "";
-    elements.jsInput.value  = saved.js  ?? "";
+    elements.jsInput.value  = activeJs;
     setRawCss(saved.css ?? "");
-    setRawJs(saved.js  ?? "");
+    setRawJs(activeJs);
 
     renderPreview();
     resetHistory();
     renderPageList();
+    renderJsFileList();
     return true;
   } catch (e) {
     console.error("[projectStorage] loadFromLocalStorage:", e);
@@ -243,11 +275,13 @@ export async function createNewProject() {
 
 function _clearEditor() {
   clearPages();
+  clearJsFiles();
   elements.cssInput.value = "";
   elements.jsInput.value  = "";
   setRawCss("");
   setRawJs("");
   renderPageList();
+  renderJsFileList();
   switchToFile("html");
   showPreviewView(true);
   resetHistory();

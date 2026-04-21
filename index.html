@@ -43,6 +43,7 @@
   <button class="tab" id="htmlEditorTabBtn">HTML Editor</button>
   <button class="tab" id="cssEditorTabBtn">CSS Editor</button>
   <button class="tab" id="jsEditorTabBtn">JS Editor</button>
+  <button class="tab" id="widgetsTabBtn">&#9881; Widgets</button>
   <button class="tab" id="sourceCodeTabBtn">Source Code</button>
   <button class="tab" id="renderPreviewBtn">Render</button>
   <button class="tab" id="inspectorToggleBtn">Inspector</button>
@@ -616,6 +617,89 @@
 
 </section>
 
+<!-- Widgets Ribbon -->
+<section id="widgetsRibbon" class="ribbon-panel hidden">
+
+  <div class="group">
+    <div class="group-body">
+      <button id="wgNavbarBtn" class="rbtn large" data-tip
+          data-tip-title="Navbar"
+          data-tip-p1="Inserts a responsive navigation bar with logo, links, and a CTA button."
+          data-tip-p2="Collapses into a hamburger menu on mobile. All text is editable.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9776;</span>
+        <span class="lbl">Navbar</span>
+      </button>
+    </div>
+    <div class="group-label">Navigation</div>
+  </div>
+
+  <div class="group-sep"></div>
+
+  <div class="group">
+    <div class="group-body">
+      <button id="wgSliderBtn" class="rbtn large" data-tip
+          data-tip-title="Slider"
+          data-tip-p1="Inserts a full-width carousel with 3 slides, prev/next arrows, and dot nav."
+          data-tip-p2="Autoplays every 4.5s and pauses on hover.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9654;</span>
+        <span class="lbl">Slider</span>
+      </button>
+      <button id="wgTabsBtn" class="rbtn large" data-tip
+          data-tip-title="Tabs"
+          data-tip-p1="Inserts a tabbed panel with 3 switchable content sections."
+          data-tip-p2="Click a tab to reveal its panel. All labels and content are editable.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9707;</span>
+        <span class="lbl">Tabs</span>
+      </button>
+      <button id="wgAccordionBtn" class="rbtn large" data-tip
+          data-tip-title="Accordion"
+          data-tip-p1="Inserts a collapsible FAQ accordion with 3 items."
+          data-tip-p2="One section open at a time. Smooth expand/collapse animation.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#8801;</span>
+        <span class="lbl">Accordion</span>
+      </button>
+    </div>
+    <div class="group-label">Content</div>
+  </div>
+
+  <div class="group-sep"></div>
+
+  <div class="group">
+    <div class="group-body">
+      <button id="wgModalBtn" class="rbtn large" data-tip
+          data-tip-title="Modal"
+          data-tip-p1="Inserts a trigger button plus a modal dialog with backdrop."
+          data-tip-p2="Closes on backdrop click, close button, or Escape key.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9633;</span>
+        <span class="lbl">Modal</span>
+      </button>
+      <button id="wgCounterBtn" class="rbtn large" data-tip
+          data-tip-title="Counter"
+          data-tip-p1="Inserts animated stat counters that count up when scrolled into view."
+          data-tip-p2="Edit the data-target attribute on each number to set the end value.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">123</span>
+        <span class="lbl">Counter</span>
+      </button>
+      <button id="wgProgressBtn" class="rbtn large" data-tip
+          data-tip-title="Progress Bars"
+          data-tip-p1="Inserts animated skill bars that fill when scrolled into view."
+          data-tip-p2="Edit data-pct (0–100) on each bar to set the fill percentage.">
+        <span class="tip-progress"></span>
+        <span class="ico sm">&#9646;</span>
+        <span class="lbl">Progress</span>
+      </button>
+    </div>
+    <div class="group-label">Interactive</div>
+  </div>
+
+</section>
+
     <!-- Main working area -->
     <main id="workspace">
 
@@ -633,7 +717,7 @@
           </div>
           <div class="fe-page-list" id="fePageList"></div>
 
-          <!-- Shared files section (CSS + JS) -->
+          <!-- Shared files section (CSS) -->
           <div class="fe-section-header">
             <span class="fe-section-name">&#9656; Files</span>
             <button id="feImportPageBtn" class="fe-add-btn" title="Import HTML file as new page">&#8593;</button>
@@ -644,12 +728,15 @@
               <span class="fe-file-name">styles.css</span>
               <button id="feLoadCssBtn" class="fe-load-btn" title="Load .css file from disk">&#8593;</button>
             </div>
-            <div id="feJsFile" class="fe-file">
-              <span class="fe-icon fe-js">J</span>
-              <span class="fe-file-name">script.js</span>
-              <button id="feLoadJsBtn" class="fe-load-btn" title="Load .js file from disk">&#8593;</button>
-            </div>
           </div>
+
+          <!-- JS Scripts section (dynamic, multi-file) -->
+          <div class="fe-section-header">
+            <span class="fe-section-name">&#9656; Scripts</span>
+            <button id="feAddJsFileBtn" class="fe-add-btn" title="Add new JS file">+</button>
+            <button id="feLoadJsBtn" class="fe-load-btn" title="Load .js file from disk">&#8593;</button>
+          </div>
+          <div class="fe-js-file-list" id="feJsFileList"></div>
         </div>
 
         <!-- Editor area: shows either the HTML or CSS textarea -->
@@ -1102,16 +1189,40 @@
         </div>
         <button id="jsLibCloseBtn" class="js-lib-close">&#x2715;</button>
       </div>
+      <!-- Search bar -->
+      <div class="jl-search-wrap">
+        <input type="text" id="jlSearch" class="jl-search" placeholder="&#128269; Search templates&#8230;" autocomplete="off">
+      </div>
       <div class="jl-cat-tabs">
         <button class="jl-cat-tab active" data-cat="All">All</button>
         <button class="jl-cat-tab" data-cat="UI">UI</button>
         <button class="jl-cat-tab" data-cat="Forms">Forms</button>
         <button class="jl-cat-tab" data-cat="Navigation">Navigation</button>
         <button class="jl-cat-tab" data-cat="Utilities">Utilities</button>
+        <button class="jl-cat-tab" data-cat="Animation">Animation</button>
+        <button class="jl-cat-tab" data-cat="Data">Data</button>
+        <button class="jl-cat-tab" data-cat="Fun">Fun</button>
+        <button class="jl-cat-tab" data-cat="Favorites">&#11088; Favs</button>
       </div>
       <div class="jl-body">
         <div class="jl-list-wrap">
           <div class="jl-list" id="jsLibList"></div>
+        </div>
+        <!-- ── Template Preview pane ── -->
+        <div class="jl-preview-pane hidden" id="jlPreviewPane">
+          <div class="jl-preview-header">
+            <div class="jl-preview-title-row">
+              <span class="jl-preview-icon" id="jlPrevIcon"></span>
+              <span class="jl-preview-name" id="jlPrevName"></span>
+              <span class="jl-preview-cat" id="jlPrevCat"></span>
+            </div>
+            <p class="jl-preview-desc" id="jlPrevDesc"></p>
+          </div>
+          <iframe class="jl-preview-frame" id="jlPreviewFrame" sandbox="allow-scripts"></iframe>
+          <div class="jl-preview-actions">
+            <button class="jl-insert-btn" id="jlPrevInsertBtn">&#10003; Insert into Page</button>
+            <button class="jl-preview-close-btn" id="jlPrevCloseBtn">&#x2715; Close</button>
+          </div>
         </div>
         <!-- ── Wire It panel ── -->
         <div class="jl-wire-panel hidden" id="jlWirePanel">

@@ -485,6 +485,161 @@
   font-style: italic;
 }
 
+/* ── Search bar ── */
+.jl-search-wrap {
+  padding: 9px 16px 7px;
+  border-bottom: 1px solid #f0f0f0;
+  flex-shrink: 0;
+}
+
+.jl-search {
+  width: 100%;
+  padding: 7px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  color: #1f2937;
+  background: #f9fafb;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.jl-search:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 2px rgba(245,158,11,0.15);
+  background: #fff;
+}
+
+.jl-no-results {
+  padding: 40px 20px;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+/* ── Favorites button on each card ── */
+.jl-fav-btn {
+  background: none;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  opacity: 0.25;
+  transition: opacity 0.15s, transform 0.15s;
+  padding: 2px 3px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.jl-fav-btn:hover  { opacity: 0.7; }
+.jl-fav-btn.active { opacity: 1; transform: scale(1.15); }
+
+/* ── Template preview pane ── */
+.js-lib-box.preview-mode {
+  width: min(960px, 95vw);
+}
+
+.jl-preview-pane {
+  width: 360px;
+  min-width: 320px;
+  flex-shrink: 0;
+  border-left: 1px solid #e5e7eb;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.jl-preview-pane.hidden { display: none; }
+
+.jl-preview-header {
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.jl-preview-title-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 5px;
+}
+
+.jl-preview-icon { font-size: 16px; }
+
+.jl-preview-name {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.jl-preview-cat {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.jl-preview-desc {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 11px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.jl-preview-frame {
+  flex: 1;
+  border: none;
+  background: #fff;
+  min-height: 0;
+}
+
+.jl-preview-actions {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+#jlPrevInsertBtn { flex: 1; }
+
+.jl-preview-close-btn {
+  padding: 5px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  background: #fff;
+  font-size: 11px;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  color: #6b7280;
+  transition: background 0.15s, color 0.15s;
+}
+
+.jl-preview-close-btn:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+/* Highlight card whose preview is open */
+.jl-card.preview-selected {
+  border-color: #3b82f6 !important;
+  background: #eff6ff !important;
+  box-shadow: 0 2px 10px rgba(59,130,246,0.15) !important;
+}
+
 /* ── File explorer load buttons ── */
 .fe-load-btn {
   background: none;

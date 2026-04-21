@@ -36,6 +36,7 @@ import { initComponentLibrary } from "./HTML Features/componentLibrary.js";
 import { initAnimationBuilder } from "./CSS Features/animationBuilder.js";
 import { initJsLibrary } from "./JS Features/jsLibrary.js";
 import { initTemplateGallery } from "./HTML Features/templateGallery.js";
+import { initWidgetLibrary, toggleWidgetRibbon, hideWidgetRibbon } from "./HTML Features/widgetLibrary.js";
 
 // ── Re-init the iframe each time it reloads ───────────────────────────────────
 elements.previewFrame.addEventListener("load", function () {
@@ -134,7 +135,7 @@ elements.htmlEditorRibbon.addEventListener("scroll", updateRibbonNavBtns);
 elements.sourceCodeTabBtn.addEventListener("click", showSourceView);
 
 // HTML Editor → switch to preview (if needed) then toggle the ribbon
-// Close CSS and JS ribbons if open
+// Close CSS, JS, and Widgets ribbons if open
 elements.htmlEditorTabBtn.addEventListener("click", function () {
   if (isSourceViewActive()) showPreviewView();
   if (!elements.cssEditorRibbon.classList.contains("hidden")) {
@@ -145,6 +146,7 @@ elements.htmlEditorTabBtn.addEventListener("click", function () {
     elements.jsEditorRibbon.classList.add("hidden");
     elements.jsEditorTabBtn.classList.remove("active");
   }
+  hideWidgetRibbon();
   htmlToolbar.toggleHtmlEditorRibbon();
   updateRibbonNavBtns();
 });
@@ -152,13 +154,33 @@ elements.htmlEditorTabBtn.addEventListener("click", function () {
 // CSS Editor → switch to preview (if needed) then toggle the ribbon
 elements.cssEditorTabBtn.addEventListener("click", function () {
   if (isSourceViewActive()) showPreviewView();
+  hideWidgetRibbon();
   toggleCssEditorRibbon();
 });
 
 // JS Editor → switch to preview (if needed) then toggle the JS ribbon
 elements.jsEditorTabBtn.addEventListener("click", function () {
   if (isSourceViewActive()) showPreviewView();
+  hideWidgetRibbon();
   toggleJsEditorRibbon();
+});
+
+// Widgets → show preview (if needed) then toggle the Widgets ribbon
+elements.widgetsTabBtn.addEventListener("click", function () {
+  if (isSourceViewActive()) showPreviewView();
+  if (!elements.htmlEditorRibbon.classList.contains("hidden")) {
+    elements.htmlEditorRibbon.classList.add("hidden");
+    elements.htmlEditorTabBtn.classList.remove("active");
+  }
+  if (!elements.cssEditorRibbon.classList.contains("hidden")) {
+    elements.cssEditorRibbon.classList.add("hidden");
+    elements.cssEditorTabBtn.classList.remove("active");
+  }
+  if (!elements.jsEditorRibbon.classList.contains("hidden")) {
+    elements.jsEditorRibbon.classList.add("hidden");
+    elements.jsEditorTabBtn.classList.remove("active");
+  }
+  toggleWidgetRibbon();
 });
 
 // Render button → force re-render and switch to preview
@@ -275,6 +297,7 @@ initComponentLibrary();
 initAnimationBuilder();
 initJsLibrary();
 initTemplateGallery();
+initWidgetLibrary();
 
 // Autosave when CSS or JS content changes in the editor
 elements.cssInput.addEventListener("input", scheduleAutosave);

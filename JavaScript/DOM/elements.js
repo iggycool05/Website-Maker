@@ -119,9 +119,9 @@ export const elements = {
   classBuilderCancel:  $("classBuilderCancel"),
 
   // ── File Explorer (Source Code tab sidebar) ──
-  fileExplorer: $("fileExplorer"),
-  feCssFile:    $("feCssFile"),
-  feJsFile:     $("feJsFile"),
+  fileExplorer:  $("fileExplorer"),
+  feCssFile:     $("feCssFile"),
+  feJsFileList:  $("feJsFileList"),
   editorArea:   $("editorArea"),
   cssInput:     $("cssInput"),
   jsInput:      $("jsInput"),
@@ -207,4 +207,8 @@ export const elements = {
 
   // ── Template Gallery ──
   templateGalleryBtn: $("templateGalleryBtn"),
+
+  // ── Widget Library ──
+  widgetsTabBtn:  $("widgetsTabBtn"),
+  widgetsRibbon:  $("widgetsRibbon"),
 };

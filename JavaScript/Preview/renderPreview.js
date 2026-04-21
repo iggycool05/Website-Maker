@@ -2,6 +2,7 @@ import { elements } from "../DOM/elements.js";
 import { getUploadedImage } from "../Utils/imageStore.js";
 import { toCssString } from "../CSS Features/cssStore.js";
 import { getRawJs } from "../JS Features/jsStore.js";
+import { getAllJsContent } from "../JS Features/jsFileStore.js";
 
 // Interceptor injected into every iframe srcdoc.
 // Overrides console.* and window.onerror to forward messages to the parent
@@ -39,7 +40,7 @@ function resolveImagePlaceholders(html) {
 export function renderPreview() {
   const userCode = resolveImagePlaceholders(elements.htmlInput.value);
   const userCss  = toCssString();
-  const userJs   = getRawJs();
+  const userJs   = getAllJsContent(elements.jsInput.value);
   // Prevent user's </script from prematurely closing the injected script tag
   const safeJs   = userJs ? userJs.replace(/<\/script/gi, "<\\/script") : "";
 
